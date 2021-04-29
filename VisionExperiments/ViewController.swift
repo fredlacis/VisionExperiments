@@ -25,10 +25,6 @@ class ViewController: UIViewController {
         view.addSubview(cameraViewController.view)
         cameraViewController.endAppearanceTransition()
         cameraViewController.didMove(toParent: self)
-        
-        
     }
-
-
 }
 

@@ -294,6 +294,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 }
             }
             let modelInput = MLMultiArray(concatenating: posesMultiArray, axis: 0, dataType: .float)
+            
+            do {
+                try print(JugglingPredictor.makePrediction(modelInput: modelInput))
+            }
+            catch {
+                print("error")
+            }
         }
 //        DispatchQueue.main.async {
 //            let stateMachine = self.gameManager.stateMachine
