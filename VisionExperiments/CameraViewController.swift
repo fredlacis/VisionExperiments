@@ -19,34 +19,12 @@ class CameraViewController: UIViewController {
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInitiated,
                                                      attributes: [], autoreleaseFrequency: .workItem)
     
-    // Added
-    private lazy var poses: [VNRecognizedPointsObservation]? = nil
-    
-    private var request: VNDetectHumanBodyPoseRequest {
-        VNDetectHumanBodyPoseRequest(completionHandler: { request, error in
-            self.poses = request.results as? [VNRecognizedPointsObservation]
-        })
-    }
-    // -- Added
-    
-//    private let gameManager = GameManager.shared
+    /// The predictor for detecting human poses and tell if its Juggling or not
+    let predictor = JugglingPredictor()
 
     // Live camera feed management
     private var cameraFeedView: CameraFeedView!
     private var cameraFeedSession: AVCaptureSession?
-
-//    // Video file playback management
-//    private var videoRenderView: VideoRenderView!
-//    private var playerItemOutput: AVPlayerItemVideoOutput?
-//    private var displayLink: CADisplayLink?
-//    private let videoFileReadingQueue = DispatchQueue(label: "VideoFileReading", qos: .userInteractive)
-//    private var videoFileBufferOrientation = CGImagePropertyOrientation.up
-//    private var videoFileFrameDuration = CMTime.invalid
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-//        startObservingStateChanges()
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -62,8 +40,6 @@ class CameraViewController: UIViewController {
         super.viewDidDisappear(animated)
         // Stop capture session if it's running
         cameraFeedSession?.stopRunning()
-        // Invalidate display link so it's removed from run loop
-//        displayLink?.invalidate()
     }
     
     func setupAVSession() throws {
@@ -140,11 +116,9 @@ class CameraViewController: UIViewController {
     func viewRectForVisionRect(_ visionRect: CGRect) -> CGRect {
         let flippedRect = visionRect.applying(CGAffineTransform.verticalFlip)
         let viewRect: CGRect
-//        if cameraFeedSession != nil {
-            viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
-//        } else {
-//            viewRect = videoRenderView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
-//        }
+        
+        viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
+
         return viewRect
     }
 
@@ -159,11 +133,9 @@ class CameraViewController: UIViewController {
     func viewPointForVisionPoint(_ visionPoint: CGPoint) -> CGPoint {
         let flippedPoint = visionPoint.applying(CGAffineTransform.verticalFlip)
         let viewPoint: CGPoint
-//        if cameraFeedSession != nil {
-            viewPoint = cameraFeedView.viewPointConverted(fromNormalizedContentsPoint: flippedPoint)
-//        } else {
-//            viewPoint = videoRenderView.viewPointConverted(fromNormalizedContentsPoint: flippedPoint)
-//        }
+        
+        viewPoint = cameraFeedView.viewPointConverted(fromNormalizedContentsPoint: flippedPoint)
+
         return viewPoint
     }
 
@@ -178,97 +150,7 @@ class CameraViewController: UIViewController {
             videoOutputView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-    
-//    func startReadingAsset(_ asset: AVAsset) {
-//        videoRenderView = VideoRenderView(frame: view.bounds)
-//        setupVideoOutputView(videoRenderView)
-//
-//        // Setup display link
-//        let displayLink = CADisplayLink(target: self, selector: #selector(handleDisplayLink(_:)))
-//        displayLink.preferredFramesPerSecond = 0 // Use display's rate
-//        displayLink.isPaused = true
-//        displayLink.add(to: RunLoop.current, forMode: .default)
-//
-//        guard let track = asset.tracks(withMediaType: .video).first else {
-//            AppError.display(AppError.videoReadingError(reason: "No video tracks found in AVAsset."), inViewController: self)
-//            return
-//        }
-//
-//        let playerItem = AVPlayerItem(asset: asset)
-//        let player = AVPlayer(playerItem: playerItem)
-//        let settings = [
-//            String(kCVPixelBufferPixelFormatTypeKey): kCVPixelFormatType_420YpCbCr8BiPlanarFullRange
-//        ]
-//        let output = AVPlayerItemVideoOutput(pixelBufferAttributes: settings)
-//        playerItem.add(output)
-//        player.actionAtItemEnd = .pause
-//        player.play()
-//
-//        self.displayLink = displayLink
-//        self.playerItemOutput = output
-//        self.videoRenderView.player = player
-//
-//        let affineTransform = track.preferredTransform.inverted()
-//        let angleInDegrees = atan2(affineTransform.b, affineTransform.a) * CGFloat(180) / CGFloat.pi
-//        var orientation: UInt32 = 1
-//        switch angleInDegrees {
-//        case 0:
-//            orientation = 1 // Recording button is on the right
-//        case 180, -180:
-//            orientation = 3 // abs(180) degree rotation recording button is on the right
-//        case 90:
-//            orientation = 8 // 90 degree CW rotation recording button is on the top
-//        case -90:
-//            orientation = 6 // 90 degree CCW rotation recording button is on the bottom
-//        default:
-//            orientation = 1
-//        }
-//        videoFileBufferOrientation = CGImagePropertyOrientation(rawValue: orientation)!
-//        videoFileFrameDuration = track.minFrameDuration
-//        displayLink.isPaused = false
-//    }
-    
-//    @objc
-//    private func handleDisplayLink(_ displayLink: CADisplayLink) {
-//        guard let output = playerItemOutput else {
-//            return
-//        }
-//
-//        videoFileReadingQueue.async {
-//            let nextTimeStamp = displayLink.timestamp + displayLink.duration
-//            let itemTime = output.itemTime(forHostTime: nextTimeStamp)
-//            guard output.hasNewPixelBuffer(forItemTime: itemTime) else {
-//                return
-//            }
-//            guard let pixelBuffer = output.copyPixelBuffer(forItemTime: itemTime, itemTimeForDisplay: nil) else {
-//                return
-//            }
-//            // Create sample buffer from pixel buffer
-//            var sampleBuffer: CMSampleBuffer?
-//            var formatDescription: CMVideoFormatDescription?
-//            CMVideoFormatDescriptionCreateForImageBuffer(allocator: nil, imageBuffer: pixelBuffer, formatDescriptionOut: &formatDescription)
-//            let duration = self.videoFileFrameDuration
-//            var timingInfo = CMSampleTimingInfo(duration: duration, presentationTimeStamp: itemTime, decodeTimeStamp: itemTime)
-//            CMSampleBufferCreateForImageBuffer(allocator: nil,
-//                                               imageBuffer: pixelBuffer,
-//                                               dataReady: true,
-//                                               makeDataReadyCallback: nil,
-//                                               refcon: nil,
-//                                               formatDescription: formatDescription!,
-//                                               sampleTiming: &timingInfo,
-//                                               sampleBufferOut: &sampleBuffer)
-//            if let sampleBuffer = sampleBuffer {
-//                self.outputDelegate?.cameraViewController(self, didReceiveBuffer: sampleBuffer, orientation: self.videoFileBufferOrientation)
-//                DispatchQueue.main.async {
-//                    let stateMachine = self.gameManager.stateMachine
-//                    if stateMachine.currentState is GameManager.SetupCameraState {
-//                        // Once we received first buffer we are ready to proceed to the next state
-//                        stateMachine.enter(GameManager.DetectingBoardState.self)
-//                    }
-//                }
-//            }
-//        }
-//    }
+  
 }
 
 
@@ -276,38 +158,16 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         outputDelegate?.cameraViewController(self, didReceiveBuffer: sampleBuffer, orientation: .up)
         
-        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
+        var _ = predictor.processFrame(sampleBuffer)
         
-        do {
-            try handler.perform([request])
-        } catch {
-            fatalError()
-//                AppError.videoReadingError(reason: "Error performing request.")
-        }
-        
-        var posesMultiArray: [MLMultiArray] = []
-        
-        if let poses = poses {
-            for pose in poses {
-                if let poseArray = try? pose.keypointsMultiArray() {
-                    posesMultiArray.append(poseArray)
-                }
-            }
-            let modelInput = MLMultiArray(concatenating: posesMultiArray, axis: 0, dataType: .float)
-            
+        if predictor.isReadyToPredict {
             do {
-                try print(JugglingPredictor.makePrediction(modelInput: modelInput))
-            }
-            catch {
-                print("error")
+                try print(predictor.makePrediction())
+            } catch {
+                print(error)
+                fatalError("Error on making prediction")
             }
         }
-//        DispatchQueue.main.async {
-//            let stateMachine = self.gameManager.stateMachine
-//            if stateMachine.currentState is GameManager.SetupCameraState {
-//                // Once we received first buffer we are ready to proceed to the next state
-//                stateMachine.enter(GameManager.DetectingBoardState.self)
-//            }
-//        }
+        
     }
 }
