@@ -16,6 +16,7 @@
 		D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A84263ADF12002C24DF /* CameraViewController.swift */; };
 		D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */; };
 		D4638A89263AE067002C24DF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A88263AE067002C24DF /* Common.swift */; };
+		D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		D4638A84263ADF12002C24DF /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOutputViews.swift; sourceTree = "<group>"; };
 		D4638A88263AE067002C24DF /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
+		D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = JugglingClassifier.mlmodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 				D4638A84263ADF12002C24DF /* CameraViewController.swift */,
 				D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */,
 				D4638A88263AE067002C24DF /* Common.swift */,
+				D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */,
 				D4627CC8263A3E2A00C46E27 /* Main.storyboard */,
 				D4627CCB263A3E2B00C46E27 /* Assets.xcassets */,
 				D4627CCD263A3E2B00C46E27 /* LaunchScreen.storyboard */,
@@ -149,6 +152,7 @@
 				D4627CC7263A3E2A00C46E27 /* ViewController.swift in Sources */,
 				D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */,
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
+				D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */,
 				D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */,
 				D4638A89263AE067002C24DF /* Common.swift in Sources */,
 				D4627CC5263A3E2A00C46E27 /* SceneDelegate.swift in Sources */,
