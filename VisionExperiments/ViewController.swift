@@ -8,10 +8,20 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    private var cameraViewController: CameraViewController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        // Add the camera view controller to the view
+        cameraViewController = CameraViewController()
+        cameraViewController.view.frame = view.bounds
+        addChild(cameraViewController)
+        cameraViewController.beginAppearanceTransition(true, animated: true)
+        view.addSubview(cameraViewController.view)
+        cameraViewController.endAppearanceTransition()
+        cameraViewController.didMove(toParent: self)
     }
 
 

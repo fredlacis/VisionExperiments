@@ -62,5 +62,11 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>This app uses the camera to analyze the scene.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app uses microphone to analyze the ambient sounds.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app allows to use recorded movies as a video source for Vision algorithms.</string>
 </dict>
 </plist>

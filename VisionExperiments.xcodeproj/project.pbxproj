@@ -13,6 +13,9 @@
 		D4627CCA263A3E2A00C46E27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4627CC8263A3E2A00C46E27 /* Main.storyboard */; };
 		D4627CCC263A3E2B00C46E27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4627CCB263A3E2B00C46E27 /* Assets.xcassets */; };
 		D4627CCF263A3E2B00C46E27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4627CCD263A3E2B00C46E27 /* LaunchScreen.storyboard */; };
+		D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A84263ADF12002C24DF /* CameraViewController.swift */; };
+		D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */; };
+		D4638A89263AE067002C24DF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A88263AE067002C24DF /* Common.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		D4627CCB263A3E2B00C46E27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4627CCE263A3E2B00C46E27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4627CD0263A3E2B00C46E27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4638A84263ADF12002C24DF /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
+		D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOutputViews.swift; sourceTree = "<group>"; };
+		D4638A88263AE067002C24DF /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +65,9 @@
 				D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */,
 				D4627CC4263A3E2A00C46E27 /* SceneDelegate.swift */,
 				D4627CC6263A3E2A00C46E27 /* ViewController.swift */,
+				D4638A84263ADF12002C24DF /* CameraViewController.swift */,
+				D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */,
+				D4638A88263AE067002C24DF /* Common.swift */,
 				D4627CC8263A3E2A00C46E27 /* Main.storyboard */,
 				D4627CCB263A3E2B00C46E27 /* Assets.xcassets */,
 				D4627CCD263A3E2B00C46E27 /* LaunchScreen.storyboard */,
@@ -138,7 +147,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4627CC7263A3E2A00C46E27 /* ViewController.swift in Sources */,
+				D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */,
+				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
 				D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */,
+				D4638A89263AE067002C24DF /* Common.swift in Sources */,
 				D4627CC5263A3E2A00C46E27 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -289,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F8Q8C944BU;
 				INFOPLIST_FILE = VisionExperiments/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -308,6 +321,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = F8Q8C944BU;
 				INFOPLIST_FILE = VisionExperiments/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
