@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import Vision
 
 class ViewController: UIViewController {
     
     private var cameraViewController: CameraViewController!
+    
+//    private let poseRequest = VNDetectHumanBodyPoseRequest()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +25,8 @@ class ViewController: UIViewController {
         view.addSubview(cameraViewController.view)
         cameraViewController.endAppearanceTransition()
         cameraViewController.didMove(toParent: self)
+        
+        
     }
 
 

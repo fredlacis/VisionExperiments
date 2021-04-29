@@ -7,6 +7,7 @@
 
 import UIKit
 import AVFoundation
+import Vision
 
 protocol CameraViewControllerOutputDelegate: AnyObject {
     func cameraViewController(_ controller: CameraViewController, didReceiveBuffer buffer: CMSampleBuffer, orientation: CGImagePropertyOrientation)
@@ -17,6 +18,17 @@ class CameraViewController: UIViewController {
     weak var outputDelegate: CameraViewControllerOutputDelegate?
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInitiated,
                                                      attributes: [], autoreleaseFrequency: .workItem)
+    
+    // Added
+    private lazy var poses: [VNRecognizedPointsObservation]? = nil
+    
+    private var request: VNDetectHumanBodyPoseRequest {
+        VNDetectHumanBodyPoseRequest(completionHandler: { request, error in
+            self.poses = request.results as? [VNRecognizedPointsObservation]
+        })
+    }
+    // -- Added
+    
 //    private let gameManager = GameManager.shared
 
     // Live camera feed management
@@ -264,6 +276,25 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         outputDelegate?.cameraViewController(self, didReceiveBuffer: sampleBuffer, orientation: .up)
         
+        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
+        
+        do {
+            try handler.perform([request])
+        } catch {
+            fatalError()
+//                AppError.videoReadingError(reason: "Error performing request.")
+        }
+        
+        var posesMultiArray: [MLMultiArray] = []
+        
+        if let poses = poses {
+            for pose in poses {
+                if let poseArray = try? pose.keypointsMultiArray() {
+                    posesMultiArray.append(poseArray)
+                }
+            }
+            let modelInput = MLMultiArray(concatenating: posesMultiArray, axis: 0, dataType: .float)
+        }
 //        DispatchQueue.main.async {
 //            let stateMachine = self.gameManager.stateMachine
 //            if stateMachine.currentState is GameManager.SetupCameraState {
