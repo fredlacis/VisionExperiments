@@ -19,6 +19,9 @@
 		D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */; };
 		D4638A89263AE067002C24DF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A88263AE067002C24DF /* Common.swift */; };
 		D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */; };
+		D4C194E3263C3CFA00C8683A /* JointSegmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C194E2263C3CFA00C8683A /* JointSegmentView.swift */; };
+		D4C194E6263C3EA400C8683A /* BoundingBoxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C194E5263C3EA400C8683A /* BoundingBoxView.swift */; };
+		D4C194E8263C3EB300C8683A /* AnimatedTransitioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C194E7263C3EB300C8683A /* AnimatedTransitioning.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +39,9 @@
 		D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOutputViews.swift; sourceTree = "<group>"; };
 		D4638A88263AE067002C24DF /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = JugglingClassifier.mlmodel; sourceTree = "<group>"; };
+		D4C194E2263C3CFA00C8683A /* JointSegmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JointSegmentView.swift; sourceTree = "<group>"; };
+		D4C194E5263C3EA400C8683A /* BoundingBoxView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoundingBoxView.swift; sourceTree = "<group>"; };
+		D4C194E7263C3EB300C8683A /* AnimatedTransitioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimatedTransitioning.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,12 +74,11 @@
 		D4627CC1263A3E2A00C46E27 /* VisionExperiments */ = {
 			isa = PBXGroup;
 			children = (
-				D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */,
-				D4627CC4263A3E2A00C46E27 /* SceneDelegate.swift */,
+				D4C194E9263C478E00C8683A /* App */,
 				D4627CC6263A3E2A00C46E27 /* ViewController.swift */,
 				D4638A84263ADF12002C24DF /* CameraViewController.swift */,
-				D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */,
 				4D9C51DD263B098B00872313 /* JugglingPredictor.swift */,
+				D4C194E4263C3E9800C8683A /* Views */,
 				D4638A88263AE067002C24DF /* Common.swift */,
 				4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */,
 				D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */,
@@ -83,6 +88,26 @@
 				D4627CD0263A3E2B00C46E27 /* Info.plist */,
 			);
 			path = VisionExperiments;
+			sourceTree = "<group>";
+		};
+		D4C194E4263C3E9800C8683A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D4C194E7263C3EB300C8683A /* AnimatedTransitioning.swift */,
+				D4C194E2263C3CFA00C8683A /* JointSegmentView.swift */,
+				D4C194E5263C3EA400C8683A /* BoundingBoxView.swift */,
+				D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D4C194E9263C478E00C8683A /* App */ = {
+			isa = PBXGroup;
+			children = (
+				D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */,
+				D4627CC4263A3E2A00C46E27 /* SceneDelegate.swift */,
+			);
+			path = App;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,6 +181,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4627CC7263A3E2A00C46E27 /* ViewController.swift in Sources */,
+				D4C194E6263C3EA400C8683A /* BoundingBoxView.swift in Sources */,
+				D4C194E8263C3EB300C8683A /* AnimatedTransitioning.swift in Sources */,
+				D4C194E3263C3CFA00C8683A /* JointSegmentView.swift in Sources */,
 				D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */,
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
 				4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */,
@@ -311,7 +339,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 72MQ9UJM4S;
+				DEVELOPMENT_TEAM = F8Q8C944BU;
 				INFOPLIST_FILE = VisionExperiments/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -331,7 +359,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 72MQ9UJM4S;
+				DEVELOPMENT_TEAM = F8Q8C944BU;
 				INFOPLIST_FILE = VisionExperiments/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (

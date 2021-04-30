@@ -6,6 +6,22 @@
 //
 
 import UIKit
+import Vision
+
+let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
+    .rightWrist,
+    .rightElbow,
+    .rightShoulder,
+    .rightHip,
+    .rightKnee,
+    .rightAnkle,
+    .leftWrist,
+    .leftElbow,
+    .leftShoulder,
+    .leftHip,
+    .leftKnee,
+    .leftAnkle,
+]
 
 // MARK: - Helper extensions
 

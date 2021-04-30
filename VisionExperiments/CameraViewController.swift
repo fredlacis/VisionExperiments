@@ -23,7 +23,13 @@ class CameraViewController: UIViewController {
                                                      attributes: [], autoreleaseFrequency: .workItem)
     
     // Classifier label
-    let classifierLabel = UILabel()
+    private let classifierLabel = UILabel()
+    
+    // A view that exibits the body joints
+    private let jointSegmentView = JointSegmentView()
+    
+    // A view that exibits the body bounding box
+    private let playerBoundingBox = BoundingBoxView()
     
     // The predictor for detecting human poses and tell if it's Juggling or not
     let predictor = JugglingPredictor()
@@ -43,6 +49,7 @@ class CameraViewController: UIViewController {
         }
         
         // Tier 1 - Setup classifier label
+        setupVisionViews()
         setupClassifierLabel()
         classifierLabelConstraints()
     }
@@ -66,7 +73,20 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
         outputDelegate?.cameraViewController(self, didReceiveBuffer: sampleBuffer, orientation: .up)
         
         // Frame processor
-        var _ = predictor.processFrame(sampleBuffer)
+        let detectPlayerRequest = predictor.processFrame(sampleBuffer)
+
+        if let result = detectPlayerRequest.first {
+//            print("Body deceted: \(result.confidence)")
+            let box = humanBoundingBox(for: result)
+            let boxView = playerBoundingBox
+            DispatchQueue.main.async {
+                let inset: CGFloat = -20.0
+                let viewRect = self.viewRectForVisionRect(box).insetBy(dx: inset, dy: inset)
+                self.updateBoundingBox(boxView, withRect: viewRect)
+                let normalizedFrame = CGRect(x: 0, y: 0, width: 1, height: 1)
+                self.jointSegmentView.frame = self.viewRectForVisionRect(normalizedFrame)
+            }
+        }
         
         // Prediction
         if predictor.isReadyToPredict {
@@ -90,6 +110,52 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
 // MARK: - Vision Supporting Methods
 extension CameraViewController {
     
+    func getBodyJointsFor(observation: VNHumanBodyPoseObservation) -> ([VNHumanBodyPoseObservation.JointName: CGPoint]) {
+        var joints = [VNHumanBodyPoseObservation.JointName: CGPoint]()
+        guard let identifiedPoints = try? observation.recognizedPoints(.all) else {
+            return joints
+        }
+        for (key, point) in identifiedPoints {
+            guard point.confidence > 0.1 else { continue }
+    //        if jointsOfInterest.contains(key) {
+                joints[key] = point.location
+    //        }
+        }
+        return joints
+    }
+    
+    func updateBoundingBox(_ boundingBox: BoundingBoxView, withRect rect: CGRect?) {
+        // Update the frame for player bounding box
+        boundingBox.frame = rect ?? .zero
+        boundingBox.perform(transition: (rect == nil ? .fadeOut : .fadeIn), duration: 0.1)
+    }
+    
+    func humanBoundingBox(for observation: VNHumanBodyPoseObservation) -> CGRect {
+        let bodyPoseDetectionMinConfidence: VNConfidence = 0.6
+        let bodyPoseRecognizedPointMinConfidence: VNConfidence = 0.1
+        
+        var box = CGRect.zero
+        var normalizedBoundingBox = CGRect.null
+        // Process body points only if the confidence is high.
+        guard observation.confidence > bodyPoseDetectionMinConfidence, let points = try? observation.recognizedPoints(forGroupKey: .all) else {
+            return box
+        }
+        // Only use point if human pose joint was detected reliably.
+        for (_, point) in points where point.confidence > bodyPoseRecognizedPointMinConfidence {
+            normalizedBoundingBox = normalizedBoundingBox.union(CGRect(origin: point.location, size: .zero))
+        }
+        if !normalizedBoundingBox.isNull {
+            box = normalizedBoundingBox
+        }
+//        // Fetch body joints from the observation and overlay them on the player.
+        let joints = getBodyJointsFor(observation: observation)
+        DispatchQueue.main.async {
+            self.jointSegmentView.joints = joints
+        }
+
+        return box
+    }
+    
     // This helper function is used to convert rects returned by Vision to the video content rect coordinates.
     //
     // The video content rect (camera preview or pre-recorded video)
@@ -102,7 +168,7 @@ extension CameraViewController {
         let flippedRect = visionRect.applying(CGAffineTransform.verticalFlip)
         let viewRect: CGRect
         
-        viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
+        viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: visionRect)
         
         return viewRect
     }
@@ -205,6 +271,15 @@ extension CameraViewController {
     func setupCameraFeedView() {
         view.addSubview(cameraFeedView)
         cameraFeedView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+    }
+    
+    // Tier 1 - Setup Joint Segment View
+    func setupVisionViews() {
+        playerBoundingBox.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        playerBoundingBox.backgroundOpacity = 0
+        playerBoundingBox.isHidden = false
+        view.addSubview(playerBoundingBox)
+        view.addSubview(jointSegmentView)
     }
     
     // Tier 1 - Setup classifier label UI

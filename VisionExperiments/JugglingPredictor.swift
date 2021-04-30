@@ -43,7 +43,7 @@ class JugglingPredictor {
         posesWindow.reserveCapacity(predictionWindowSize)
     }
     
-    public func processFrame(_ sampleBuffer: CMSampleBuffer) -> [VNRecognizedPointsObservation] {
+    public func processFrame(_ sampleBuffer: CMSampleBuffer) -> [VNHumanBodyPoseObservation] {
         // Perform Vision body pose request
         let framePoses = extractPoses(from: sampleBuffer)
         
@@ -76,7 +76,7 @@ class JugglingPredictor {
         posesWindow = []
         
         // Do whatever with the prediction result
-        let output = "Label: \t\(preditcions.label) | Confidence: \(preditcions.labelProbabilities[preditcions.label] ?? 0)"
+        let output = "Label: \(preditcions.label) | Confidence: \(preditcions.labelProbabilities[preditcions.label] ?? 0)"
         
         return output
     }
@@ -103,7 +103,7 @@ extension JugglingPredictor {
     
     func zeroPaddedMultiArray() throws -> MLMultiArray {
         // Creates a MLMultiArray with the size specified on the Model's Predictions tab
-        let array = try MLMultiArray(shape: [15, 3, 18], dataType: MLMultiArrayDataType.float32)
+        let array = try MLMultiArray(shape: [1, 3, 18], dataType: MLMultiArrayDataType.float32)
         
         // Fills it with 0s
         for i in 0..<array.count {
