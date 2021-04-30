@@ -118,6 +118,7 @@ extension CameraViewController {
         for (key, point) in identifiedPoints {
             guard point.confidence > 0.1 else { continue }
     //        if jointsOfInterest.contains(key) {
+            print("Key: \(key), Location: \(point.location)")
                 joints[key] = point.location
     //        }
         }

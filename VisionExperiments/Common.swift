@@ -15,12 +15,12 @@ let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .rightHip,
     .rightKnee,
     .rightAnkle,
-    .leftWrist,
-    .leftElbow,
-    .leftShoulder,
-    .leftHip,
-    .leftKnee,
-    .leftAnkle,
+//    .leftWrist,
+//    .leftElbow,
+//    .leftShoulder,
+//    .leftHip,
+//    .leftKnee,
+//    .leftAnkle,
 ]
 
 // MARK: - Helper extensions
