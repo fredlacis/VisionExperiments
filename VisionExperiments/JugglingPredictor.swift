@@ -86,7 +86,7 @@ class JugglingPredictor {
 extension JugglingPredictor {
     /// Receives a CMSampleBuffer and returns the Human Poses in it
     func extractPoses(from sampleBuffer: CMSampleBuffer) -> [VNHumanBodyPoseObservation] {
-        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .up, options: [:])
+        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .right, options: [:])
         
         do {
             try handler.perform([humanBodyPoseRequest])
