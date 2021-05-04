@@ -9,13 +9,23 @@ import UIKit
 import Vision
 
 /// Points of interest to predict Juggling
-let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
-    .rightWrist,
-    .rightElbow,
-    .rightShoulder,
-    .rightHip,
-    .rightKnee,
-    .rightAnkle,
+//let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
+//    .rightWrist,
+//    .rightElbow,
+//    .rightShoulder,
+//    .rightHip,
+//    .rightKnee,
+//    .rightAnkle,
+//
+//    .leftWrist,
+//    .leftElbow,
+//    .leftShoulder,
+//    .leftHip,
+//    .leftKnee,
+//    .leftAnkle,
+//]
+
+let leftJointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .leftWrist,
     .leftElbow,
     .leftShoulder,
@@ -23,6 +33,21 @@ let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .leftKnee,
     .leftAnkle,
 ]
+
+let rightJointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
+    .rightWrist,
+    .rightElbow,
+    .rightShoulder,
+    .rightHip,
+    .rightKnee,
+    .rightAnkle,
+]
+
+let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = {
+    var left = leftJointsOfInterest
+    left.append(contentsOf: rightJointsOfInterest)
+    return left
+}()
 
 /// Test points to debug display
 // let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [.nose, .leftEye, .rightEye]
