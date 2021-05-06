@@ -396,7 +396,7 @@ extension CameraViewController {
         counterLabelConstraints()
         counterLabel.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
         counterLabel.textAlignment = .center
-        counterLabel.textColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.6)
+        counterLabel.textColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.65)
         counterLabel.font = confidenceLabel.font.withSize(200)
         counterLabel.text = ""
     }
@@ -451,7 +451,7 @@ extension CameraViewController {
         counterLabel.translatesAutoresizingMaskIntoConstraints = false
         counterLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         counterLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-        counterLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
-        counterLabel.heightAnchor.constraint(equalTo: counterLabel.widthAnchor).isActive = true
+        counterLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
+        counterLabel.heightAnchor.constraint(equalTo: counterLabel.widthAnchor, multiplier: 0.8).isActive = true
     }
 }
