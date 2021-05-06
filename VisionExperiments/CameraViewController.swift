@@ -351,6 +351,7 @@ extension CameraViewController {
         classifierLabel.layer.cornerRadius = 15
         classifierLabel.textColor = .white
         classifierLabel.layer.masksToBounds = true
+        classifierLabel.setHelveticaBold(fontSize: 20)
     }
     
 
@@ -364,6 +365,7 @@ extension CameraViewController {
         highScoreLabel.textColor = .white
         highScoreLabel.layer.masksToBounds = true
         highScoreLabel.text = "\(highScore)"
+        highScoreLabel.setHelveticaBold(fontSize: 20)
     }
     
     // Tier 3 - Setup confidence label UI
@@ -375,7 +377,7 @@ extension CameraViewController {
         confidenceLabel.layer.cornerRadius = 15
         confidenceLabel.textColor = .white
         confidenceLabel.layer.masksToBounds = true
-        confidenceLabel.font = confidenceLabel.font.withSize(13)
+        confidenceLabel.setHelveticaBold(fontSize: 13)
         confidenceLabel.text = "\(currentConfidence)%"
     }
     
@@ -386,7 +388,7 @@ extension CameraViewController {
         bestLabel.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
         bestLabel.textAlignment = .center
         bestLabel.textColor = .orange
-        bestLabel.font = confidenceLabel.font.withSize(13)
+        bestLabel.setHelveticaBold(fontSize: 20)
         bestLabel.text = "Best"
     }
     
@@ -434,7 +436,7 @@ extension CameraViewController {
         confidenceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         confidenceLabel.bottomAnchor.constraint(equalTo: classifierLabel.topAnchor, constant: 15).isActive = true
         confidenceLabel.widthAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.5).isActive = true
-        confidenceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        confidenceLabel.heightAnchor.constraint(equalTo: confidenceLabel.widthAnchor, multiplier: 0.3).isActive = true
     }
     
     // Tier 4 - Confidence label constraints

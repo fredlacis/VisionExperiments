@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4D9C51DE263B098B00872313 /* JugglingPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C51DD263B098B00872313 /* JugglingPredictor.swift */; };
+		4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */; };
 		4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB90A9F2643811C00407C33 /* DetectedAction.swift */; };
 		4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */; };
 		D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		4D9C51DD263B098B00872313 /* JugglingPredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingPredictor.swift; sourceTree = "<group>"; };
+		4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		4DB90A9F2643811C00407C33 /* DetectedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedAction.swift; sourceTree = "<group>"; };
 		4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		D4627CBF263A3E2A00C46E27 /* VisionExperiments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExperiments.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -100,6 +102,7 @@
 				D4C194E2263C3CFA00C8683A /* JointSegmentView.swift */,
 				D4C194E5263C3EA400C8683A /* BoundingBoxView.swift */,
 				D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */,
+				4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -187,6 +190,7 @@
 				D4C194E6263C3EA400C8683A /* BoundingBoxView.swift in Sources */,
 				D4C194E8263C3EB300C8683A /* AnimatedTransitioning.swift in Sources */,
 				D4C194E3263C3CFA00C8683A /* JointSegmentView.swift in Sources */,
+				4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */,
 				D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */,
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
 				4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */,
