@@ -28,11 +28,17 @@ class CameraViewController: UIViewController {
     // High Score label
     private let highScoreLabel = UILabel()
     
+    // Confidence label
+    private let confidenceLabel = UILabel()
+    
     // Counter
     private var count: Int = 0
     
     // High score
     private var highScore: Int = 0
+    
+    // Current confidence
+    private var currentConfidence: Double = 0
     
     // A view that exibits the body joints
     private let jointSegmentView = JointSegmentView()
@@ -62,6 +68,9 @@ class CameraViewController: UIViewController {
         
         // Tier 1 - Setup classifier label
         setupClassifierLabel()
+        
+        // Tier 1 - Setup Confidence label
+        setupConficendeLabel()
         
         // Tier 2 - Setup highscore label
         setupHighScoreLabel()
@@ -111,11 +120,13 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 
                 case .juggling(let confidence):
                     count+=1
+                    currentConfidence = confidence
                     // Checks if it beats high score
                     highScore = highScore <= count ? count : highScore
                     
                 case .other(let confidence):
                     count = 0
+                    currentConfidence = confidence
                 }
                 
                 // Updates main theread UI
@@ -125,9 +136,10 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                         self.highScoreLabel.text = "\(self.highScore)"
                     }
                     else {
-                        self.classifierLabel.text = "\(prediction.getLabel())"
+                        self.classifierLabel.text = "\(prediction.getLabel() == "Juggling" ? "Juggling" : "Not Juggling")"
 
                     }
+                    self.confidenceLabel.text = "\(self.currentConfidence)%"
                 }
             } catch {
                 debugPrint(error)
@@ -198,7 +210,7 @@ extension CameraViewController {
         let flippedRect = visionRect.applying(CGAffineTransform.verticalFlip)
         let viewRect: CGRect
         
-        viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: visionRect)
+        viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
         
         return viewRect
     }
@@ -322,6 +334,18 @@ extension CameraViewController {
         classifierLabel.layer.masksToBounds = true
     }
     
+    // Tier 1 - Setup confidence label UI
+    func setupConficendeLabel() {
+        view.addSubview(confidenceLabel)
+        confidenceLabelConstraints()
+        confidenceLabel.backgroundColor = .orange
+        confidenceLabel.textAlignment = .center
+        confidenceLabel.layer.cornerRadius = 15
+        confidenceLabel.layer.masksToBounds = true
+        confidenceLabel.font = confidenceLabel.font.withSize(13)
+        confidenceLabel.text = "\(currentConfidence)%"
+    }
+    
     // Tier 2 - Setup highscore label UI
     func setupHighScoreLabel() {
         view.addSubview(highScoreLabel)
@@ -349,6 +373,15 @@ extension CameraViewController {
         classifierLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height*0.15).isActive = true
         classifierLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
         classifierLabel.heightAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.25).isActive = true
+    }
+    
+    // Tier 1 - Confidence label constraints
+    func confidenceLabelConstraints() {
+        confidenceLabel.translatesAutoresizingMaskIntoConstraints = false
+        confidenceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        confidenceLabel.bottomAnchor.constraint(equalTo: classifierLabel.topAnchor, constant: 15).isActive = true
+        confidenceLabel.widthAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.5).isActive = true
+        confidenceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
     // Tier 2 - High score label constrains
