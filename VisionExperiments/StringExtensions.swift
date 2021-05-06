@@ -9,6 +9,17 @@ import Foundation
 
 extension String {
     
+    // Gets the action with respective confidence from predtion string format
+    func getAction()->DetectedAction {
+        
+        // Case juggling
+        if self.getLabel() == "Juggling" {
+            return DetectedAction.juggling(Double(self.getConfidence()) ?? 0.0)
+        }
+        
+        // Case other
+        return DetectedAction.other(Double(self.getConfidence()) ?? 0.0)
+    }
     // Gets label from CreateML prediction string format
     func getLabel()->String {
         
@@ -19,7 +30,7 @@ extension String {
         return labelOnly[0].removeWhiteSpace()
     }
     
-    // Gets confidence percentage from CreateML prediction string format
+    // Gets confidence percentage from CreateML prediction string format as string
     func getConfidence()->String {
         
         let confidenceBlock = self.components(separatedBy: ":")

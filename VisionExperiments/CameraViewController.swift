@@ -25,6 +25,15 @@ class CameraViewController: UIViewController {
     // Classifier label
     private let classifierLabel = UILabel()
     
+    // High Score label
+    private let highScoreLabel = UILabel()
+    
+    // Counter
+    private var count: Int = 0
+    
+    // High score
+    private var highScore: Int = 0
+    
     // A view that exibits the body joints
     private let jointSegmentView = JointSegmentView()
     
@@ -48,10 +57,14 @@ class CameraViewController: UIViewController {
             AppError.display(error, inViewController: self)
         }
         
-        // Tier 1 - Setup classifier label
+        // Tier 0.5 - Vision views
         setupVisionViews()
+        
+        // Tier 1 - Setup classifier label
         setupClassifierLabel()
-        classifierLabelConstraints()
+        
+        // Tier 2 - Setup highscore label
+        setupHighScoreLabel()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -93,11 +106,28 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             do {
                 let prediction = try predictor.makePrediction()
                 
+                if prediction.getLabel() == "Juggling" {
+                    count+=1
+                    if count >= highScore {
+                        highScore = count
+                    }
+                }
+                else {
+                    count = 0
+                }
                 debugPrint(prediction)
                 
                 // Updates main theread UI
                 DispatchQueue.main.async {
-                    self.classifierLabel.text = "\(prediction.getLabel()) - \(prediction.getConfidence())%"
+                    if self.count >= 3 {
+                        self.classifierLabel.text = "\(prediction.getLabel()) - \(self.count)"
+                        self.highScoreLabel.text = "\(self.highScore)"
+
+                    }
+                    else {
+                        self.classifierLabel.text = "\(prediction.getLabel())"
+
+                    }
                 }
                 
             } catch {
@@ -274,7 +304,7 @@ extension CameraViewController {
         cameraFeedView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
     
-    // Tier 1 - Setup Joint Segment View
+    // Tier 0.5 - Setup Joint Segment View
     func setupVisionViews() {
         playerBoundingBox.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         playerBoundingBox.backgroundOpacity = 0
@@ -293,6 +323,17 @@ extension CameraViewController {
         classifierLabel.layer.masksToBounds = true
     }
     
+    // Tier 2 - Setup highscore label UI
+    func setupHighScoreLabel() {
+        view.addSubview(highScoreLabel)
+        highScoreLabelConstraints()
+        highScoreLabel.backgroundColor = .orange
+        highScoreLabel.textAlignment = .center
+        highScoreLabel.layer.cornerRadius = 15
+        highScoreLabel.layer.masksToBounds = true
+        highScoreLabel.text = "\(highScore)"
+    }
+    
     // Tier 0 - Video output view constraints
     func cameraFeedViewConstraints() {
         cameraFeedView.translatesAutoresizingMaskIntoConstraints = false
@@ -306,8 +347,17 @@ extension CameraViewController {
     func classifierLabelConstraints() {
         classifierLabel.translatesAutoresizingMaskIntoConstraints = false
         classifierLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        classifierLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -view.frame.height*0.3).isActive = true
+        classifierLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height*0.15).isActive = true
         classifierLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
         classifierLabel.heightAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.25).isActive = true
+    }
+    
+    // Tier 2 - High score label constrains
+    func highScoreLabelConstraints() {
+        highScoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        highScoreLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -view.frame.width*0.05).isActive = true
+        highScoreLabel.centerYAnchor.constraint(equalTo: classifierLabel.centerYAnchor).isActive = true
+        highScoreLabel.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
+        highScoreLabel.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
     }
 }
