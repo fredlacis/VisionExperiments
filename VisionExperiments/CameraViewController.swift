@@ -31,6 +31,12 @@ class CameraViewController: UIViewController {
     // Confidence label
     private let confidenceLabel = UILabel()
     
+    // Best label
+    private let bestLabel = UILabel()
+    
+    // Counter label
+    private let counterLabel = UILabel()
+    
     // Counter
     private var count: Int = 0
     
@@ -69,11 +75,17 @@ class CameraViewController: UIViewController {
         // Tier 1 - Setup classifier label
         setupClassifierLabel()
         
-        // Tier 1 - Setup Confidence label
-        setupConficendeLabel()
-        
         // Tier 2 - Setup highscore label
         setupHighScoreLabel()
+        
+        // Tier 3 - Setup Confidence label
+        setupConficendeLabel()
+        
+        // Tier 4 - Setup best label
+        setupBestLabel()
+        
+        // Tier 5 - Counter label
+        setupCounterLabel()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -131,14 +143,20 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
                 
                 // Updates main theread UI
                 DispatchQueue.main.async {
+                                        
+                    // Confirm juggling with basic filter
                     if self.count >= 3 {
-                        self.classifierLabel.text = "\(prediction.getLabel()) - \(self.count)"
+                        self.counterLabel.text = "\(self.count)"
                         self.highScoreLabel.text = "\(self.highScore)"
                     }
                     else {
-                        self.classifierLabel.text = "\(prediction.getLabel() == "Juggling" ? "Juggling" : "Not Juggling")"
-
+                        self.counterLabel.text = ""
                     }
+                    
+                    // Prediction
+                    self.classifierLabel.text = "\(prediction.getLabel() == "Juggling" ? "Juggling" : "Not Juggling")"
+
+                    // Confidence
                     self.confidenceLabel.text = "\(self.currentConfidence)%"
                 }
             } catch {
@@ -331,21 +349,11 @@ extension CameraViewController {
         classifierLabel.backgroundColor = .orange
         classifierLabel.textAlignment = .center
         classifierLabel.layer.cornerRadius = 15
+        classifierLabel.textColor = .white
         classifierLabel.layer.masksToBounds = true
     }
     
-    // Tier 1 - Setup confidence label UI
-    func setupConficendeLabel() {
-        view.addSubview(confidenceLabel)
-        confidenceLabelConstraints()
-        confidenceLabel.backgroundColor = .orange
-        confidenceLabel.textAlignment = .center
-        confidenceLabel.layer.cornerRadius = 15
-        confidenceLabel.layer.masksToBounds = true
-        confidenceLabel.font = confidenceLabel.font.withSize(13)
-        confidenceLabel.text = "\(currentConfidence)%"
-    }
-    
+
     // Tier 2 - Setup highscore label UI
     func setupHighScoreLabel() {
         view.addSubview(highScoreLabel)
@@ -353,8 +361,44 @@ extension CameraViewController {
         highScoreLabel.backgroundColor = .orange
         highScoreLabel.textAlignment = .center
         highScoreLabel.layer.cornerRadius = 15
+        highScoreLabel.textColor = .white
         highScoreLabel.layer.masksToBounds = true
         highScoreLabel.text = "\(highScore)"
+    }
+    
+    // Tier 3 - Setup confidence label UI
+    func setupConficendeLabel() {
+        view.addSubview(confidenceLabel)
+        confidenceLabelConstraints()
+        confidenceLabel.backgroundColor = .orange
+        confidenceLabel.textAlignment = .center
+        confidenceLabel.layer.cornerRadius = 15
+        confidenceLabel.textColor = .white
+        confidenceLabel.layer.masksToBounds = true
+        confidenceLabel.font = confidenceLabel.font.withSize(13)
+        confidenceLabel.text = "\(currentConfidence)%"
+    }
+    
+    // Tier 4 - Setup best label UI
+    func setupBestLabel() {
+        view.addSubview(bestLabel)
+        bestLabelConstraints()
+        bestLabel.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
+        bestLabel.textAlignment = .center
+        bestLabel.textColor = .orange
+        bestLabel.font = confidenceLabel.font.withSize(13)
+        bestLabel.text = "Best"
+    }
+    
+    // Tier 5 - Setup counter label UI
+    func setupCounterLabel() {
+        view.addSubview(counterLabel)
+        counterLabelConstraints()
+        counterLabel.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
+        counterLabel.textAlignment = .center
+        counterLabel.textColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.6)
+        counterLabel.font = confidenceLabel.font.withSize(200)
+        counterLabel.text = ""
     }
     
     // Tier 0 - Video output view constraints
@@ -375,7 +419,16 @@ extension CameraViewController {
         classifierLabel.heightAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.25).isActive = true
     }
     
-    // Tier 1 - Confidence label constraints
+    // Tier 2 - High score label constrains
+    func highScoreLabelConstraints() {
+        highScoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        highScoreLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -view.frame.width*0.05).isActive = true
+        highScoreLabel.centerYAnchor.constraint(equalTo: classifierLabel.centerYAnchor).isActive = true
+        highScoreLabel.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
+        highScoreLabel.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
+    }
+    
+    // Tier 3 - Confidence label constraints
     func confidenceLabelConstraints() {
         confidenceLabel.translatesAutoresizingMaskIntoConstraints = false
         confidenceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -384,12 +437,21 @@ extension CameraViewController {
         confidenceLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
     }
     
-    // Tier 2 - High score label constrains
-    func highScoreLabelConstraints() {
-        highScoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        highScoreLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -view.frame.width*0.05).isActive = true
-        highScoreLabel.centerYAnchor.constraint(equalTo: classifierLabel.centerYAnchor).isActive = true
-        highScoreLabel.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
-        highScoreLabel.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
+    // Tier 4 - Confidence label constraints
+    func bestLabelConstraints() {
+        bestLabel.translatesAutoresizingMaskIntoConstraints = false
+        bestLabel.centerXAnchor.constraint(equalTo: highScoreLabel.centerXAnchor).isActive = true
+        bestLabel.bottomAnchor.constraint(equalTo: highScoreLabel.topAnchor, constant: 15).isActive = true
+        bestLabel.widthAnchor.constraint(equalTo: highScoreLabel.widthAnchor).isActive = true
+        bestLabel.heightAnchor.constraint(equalTo: bestLabel.widthAnchor).isActive = true
+    }
+    
+    // Tier 5 - Counter label contraints
+    func counterLabelConstraints() {
+        counterLabel.translatesAutoresizingMaskIntoConstraints = false
+        counterLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        counterLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        counterLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
+        counterLabel.heightAnchor.constraint(equalTo: counterLabel.widthAnchor).isActive = true
     }
 }
