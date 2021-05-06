@@ -7,7 +7,7 @@
 
 import Foundation
 
-// Action (Confidence)
+// MARK: - Possible Actions to Detect With Respective Confidence
 enum DetectedAction {
     case juggling(Double)
     case other(Double)

@@ -101,35 +101,34 @@ extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
             }
         }
         
-        // Prediction
+        // Prediction process
         if predictor.isReadyToPredict {
             do {
                 let prediction = try predictor.makePrediction()
                 
-                if prediction.getLabel() == "Juggling" {
+                // Detects which action is been performed
+                switch prediction.getAction() {
+                
+                case .juggling(let confidence):
                     count+=1
-                    if count >= highScore {
-                        highScore = count
-                    }
-                }
-                else {
+                    // Checks if it beats high score
+                    highScore = highScore <= count ? count : highScore
+                    
+                case .other(let confidence):
                     count = 0
                 }
-                debugPrint(prediction)
                 
                 // Updates main theread UI
                 DispatchQueue.main.async {
                     if self.count >= 3 {
                         self.classifierLabel.text = "\(prediction.getLabel()) - \(self.count)"
                         self.highScoreLabel.text = "\(self.highScore)"
-
                     }
                     else {
                         self.classifierLabel.text = "\(prediction.getLabel())"
 
                     }
                 }
-                
             } catch {
                 debugPrint(error)
             }
