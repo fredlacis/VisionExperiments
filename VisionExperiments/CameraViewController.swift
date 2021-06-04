@@ -407,6 +407,42 @@ extension CameraViewController {
         }
         setupView()
     }
+
+    
+    // Setup View
+    func setupView() {
+        // Tier 0 - Setup camera session
+        do {
+            try setupAVSession()
+        } catch {
+            AppError.display(error, inViewController: self)
+        }
+        
+        // Tier 0.5 - Vision views
+        setupVisionViews()
+        
+        // Tier 1 - Setup classifier label
+        setupClassifierLabel()
+        
+        // Tier 2 - Setup highscore label
+        setupHighScoreLabel()
+        
+        // Tier 3 - Setup Confidence label
+        setupConficendeLabel()
+        
+        // Tier 4 - Setup best label
+        setupBestLabel()
+        
+        // Tier 5 - Counter label
+        setupCounterLabel()
+        
+        // Tier 6 - Flip camera button
+        setupFlipCameraButton()
+    }
+}
+
+// MARK: - Constraint Setup Extensions
+extension CameraViewController {
     
     // Tier 0 - Video output view constraints
     func cameraFeedViewConstraints() {
@@ -469,35 +505,5 @@ extension CameraViewController {
         flipCameraButton.centerYAnchor.constraint(equalTo: classifierLabel.centerYAnchor).isActive = true
         flipCameraButton.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
         flipCameraButton.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
-    }
-    
-    func setupView() {
-        // Tier 0 - Setup camera session
-        do {
-            try setupAVSession()
-        } catch {
-            AppError.display(error, inViewController: self)
-        }
-        
-        // Tier 0.5 - Vision views
-        setupVisionViews()
-        
-        // Tier 1 - Setup classifier label
-        setupClassifierLabel()
-        
-        // Tier 2 - Setup highscore label
-        setupHighScoreLabel()
-        
-        // Tier 3 - Setup Confidence label
-        setupConficendeLabel()
-        
-        // Tier 4 - Setup best label
-        setupBestLabel()
-        
-        // Tier 5 - Counter label
-        setupCounterLabel()
-        
-        // Tier 6 - Flip camera button
-        setupFlipCameraButton()
     }
 }
