@@ -55,6 +55,12 @@ class CameraViewController: UIViewController {
     // The predictor for detecting human poses and tell if it's Juggling or not
     let predictor = JugglingPredictor()
     
+    // Camera Postion
+    var cameraPosition: AVCaptureDevice.Position = .back
+    
+    // Flip Camera Button
+    let flipCameraButton = UIButton()
+    
     // Live camera feed management
     private var cameraFeedView: CameraFeedView!
     private var cameraFeedSession: AVCaptureSession?
@@ -62,30 +68,7 @@ class CameraViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Tier 0 - Setup camera session
-        do {
-            try setupAVSession()
-        } catch {
-            AppError.display(error, inViewController: self)
-        }
-        
-        // Tier 0.5 - Vision views
-        setupVisionViews()
-        
-        // Tier 1 - Setup classifier label
-        setupClassifierLabel()
-        
-        // Tier 2 - Setup highscore label
-        setupHighScoreLabel()
-        
-        // Tier 3 - Setup Confidence label
-        setupConficendeLabel()
-        
-        // Tier 4 - Setup best label
-        setupBestLabel()
-        
-        // Tier 5 - Counter label
-        setupCounterLabel()
+        setupView()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -257,7 +240,7 @@ extension CameraViewController {
     func setupAVSession() throws {
         // Create device discovery session for a wide angle camera
         let wideAngle = AVCaptureDevice.DeviceType.builtInWideAngleCamera
-        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [wideAngle], mediaType: .video, position: .unspecified)
+        let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [wideAngle], mediaType: .video, position: cameraPosition)
         
         // Select a video device, make an input
         guard let videoDevice = discoverySession.devices.first else {
@@ -403,6 +386,28 @@ extension CameraViewController {
         counterLabel.text = ""
     }
     
+    // Tier 6 - Setup Flip Camera Button
+    func setupFlipCameraButton() {
+        view.addSubview(flipCameraButton)
+        flipCameraButtonConstraints()
+        flipCameraButton.backgroundColor = .orange
+        flipCameraButton.layer.cornerRadius = 15
+        flipCameraButton.layer.masksToBounds = true
+        flipCameraButton.addTarget(self, action: #selector(flipCamera), for: .touchUpInside)
+    }
+    
+    // Tier 6 - Flip Camera
+    @objc func flipCamera() {
+        if cameraPosition == .front {
+            cameraPosition = .back
+            print("oi")
+        }
+        else {
+            cameraPosition = .front
+        }
+        setupView()
+    }
+    
     // Tier 0 - Video output view constraints
     func cameraFeedViewConstraints() {
         cameraFeedView.translatesAutoresizingMaskIntoConstraints = false
@@ -455,5 +460,44 @@ extension CameraViewController {
         counterLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         counterLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         counterLabel.heightAnchor.constraint(equalTo: counterLabel.widthAnchor, multiplier: 0.8).isActive = true
+    }
+    
+    // Tier 6 - Flip camera button contraints
+    func flipCameraButtonConstraints() {
+        flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
+        flipCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: view.frame.width*0.05).isActive = true
+        flipCameraButton.centerYAnchor.constraint(equalTo: classifierLabel.centerYAnchor).isActive = true
+        flipCameraButton.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
+        flipCameraButton.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
+    }
+    
+    func setupView() {
+        // Tier 0 - Setup camera session
+        do {
+            try setupAVSession()
+        } catch {
+            AppError.display(error, inViewController: self)
+        }
+        
+        // Tier 0.5 - Vision views
+        setupVisionViews()
+        
+        // Tier 1 - Setup classifier label
+        setupClassifierLabel()
+        
+        // Tier 2 - Setup highscore label
+        setupHighScoreLabel()
+        
+        // Tier 3 - Setup Confidence label
+        setupConficendeLabel()
+        
+        // Tier 4 - Setup best label
+        setupBestLabel()
+        
+        // Tier 5 - Counter label
+        setupCounterLabel()
+        
+        // Tier 6 - Flip camera button
+        setupFlipCameraButton()
     }
 }
