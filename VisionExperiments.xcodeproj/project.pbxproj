@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D91814A266BF43900674F78 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918149266BF43900674F78 /* CameraVC.swift */; };
+		4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91814D266BFD8300674F78 /* JugglingVC.swift */; };
 		4D9C51DE263B098B00872313 /* JugglingPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C51DD263B098B00872313 /* JugglingPredictor.swift */; };
 		4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */; };
 		4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB90A9F2643811C00407C33 /* DetectedAction.swift */; };
 		4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */; };
 		D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */; };
 		D4627CC5263A3E2A00C46E27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC4263A3E2A00C46E27 /* SceneDelegate.swift */; };
-		D4627CC7263A3E2A00C46E27 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC6263A3E2A00C46E27 /* ViewController.swift */; };
 		D4627CCA263A3E2A00C46E27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4627CC8263A3E2A00C46E27 /* Main.storyboard */; };
 		D4627CCC263A3E2B00C46E27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4627CCB263A3E2B00C46E27 /* Assets.xcassets */; };
 		D4627CCF263A3E2B00C46E27 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4627CCD263A3E2B00C46E27 /* LaunchScreen.storyboard */; };
-		D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A84263ADF12002C24DF /* CameraViewController.swift */; };
 		D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */; };
 		D4638A89263AE067002C24DF /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4638A88263AE067002C24DF /* Common.swift */; };
 		D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */; };
@@ -27,6 +27,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4D918149266BF43900674F78 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
+		4D91814D266BFD8300674F78 /* JugglingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingVC.swift; sourceTree = "<group>"; };
 		4D9C51DD263B098B00872313 /* JugglingPredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingPredictor.swift; sourceTree = "<group>"; };
 		4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		4DB90A9F2643811C00407C33 /* DetectedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedAction.swift; sourceTree = "<group>"; };
@@ -34,12 +36,10 @@
 		D4627CBF263A3E2A00C46E27 /* VisionExperiments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExperiments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4627CC4263A3E2A00C46E27 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D4627CC6263A3E2A00C46E27 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D4627CC9263A3E2A00C46E27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D4627CCB263A3E2B00C46E27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4627CCE263A3E2B00C46E27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4627CD0263A3E2B00C46E27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4638A84263ADF12002C24DF /* CameraViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraViewController.swift; sourceTree = "<group>"; };
 		D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoOutputViews.swift; sourceTree = "<group>"; };
 		D4638A88263AE067002C24DF /* Common.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = JugglingClassifier.mlmodel; sourceTree = "<group>"; };
@@ -79,8 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				D4C194E9263C478E00C8683A /* App */,
-				D4627CC6263A3E2A00C46E27 /* ViewController.swift */,
-				D4638A84263ADF12002C24DF /* CameraViewController.swift */,
+				4D91814D266BFD8300674F78 /* JugglingVC.swift */,
+				4D918149266BF43900674F78 /* CameraVC.swift */,
 				4D9C51DD263B098B00872313 /* JugglingPredictor.swift */,
 				4DB90A9F2643811C00407C33 /* DetectedAction.swift */,
 				D4C194E4263C3E9800C8683A /* Views */,
@@ -147,6 +147,7 @@
 				TargetAttributes = {
 					D4627CBE263A3E2A00C46E27 = {
 						CreatedOnToolsVersion = 12.5;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
@@ -186,17 +187,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4627CC7263A3E2A00C46E27 /* ViewController.swift in Sources */,
 				D4C194E6263C3EA400C8683A /* BoundingBoxView.swift in Sources */,
 				D4C194E8263C3EB300C8683A /* AnimatedTransitioning.swift in Sources */,
 				D4C194E3263C3CFA00C8683A /* JointSegmentView.swift in Sources */,
 				4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */,
-				D4638A85263ADF12002C24DF /* CameraViewController.swift in Sources */,
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
 				4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */,
+				4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */,
 				D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */,
 				D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */,
 				D4638A89263AE067002C24DF /* Common.swift in Sources */,
+				4D91814A266BF43900674F78 /* CameraVC.swift in Sources */,
 				4D9C51DE263B098B00872313 /* JugglingPredictor.swift in Sources */,
 				4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */,
 				D4627CC5263A3E2A00C46E27 /* SceneDelegate.swift in Sources */,
@@ -346,9 +347,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = F8Q8C944BU;
+				DEVELOPMENT_TEAM = 56K6NGW5U4;
 				INFOPLIST_FILE = VisionExperiments/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -357,6 +359,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.AcademyRJ.Angora.Olimpo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -367,9 +370,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = F8Q8C944BU;
+				DEVELOPMENT_TEAM = 56K6NGW5U4;
 				INFOPLIST_FILE = VisionExperiments/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
