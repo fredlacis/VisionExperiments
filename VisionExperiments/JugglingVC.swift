@@ -38,9 +38,6 @@ class JugglingVC: CameraVC, CameraSessionDelegate {
     // Current confidence
     private var currentConfidence: Double = 0
     
-    // The predictor for detecting human poses and tell if it's Juggling or not
-//    let jugglin = JugglingPredictor()
-    
     // Live camera feed management
     private var cameraFeedView: CameraFeedView!
     private var cameraFeedSession: AVCaptureSession?

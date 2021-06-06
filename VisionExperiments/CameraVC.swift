@@ -38,7 +38,7 @@ class CameraVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     // A view that exibits the body bounding box
     private let playerBoundingBox = BoundingBoxView()
     
-    // Camera Postion
+    // Camera postion | front/badk
     var cameraPosition: AVCaptureDevice.Position = .back
     
     // Live camera feed management
@@ -50,7 +50,7 @@ class CameraVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     
 }
 
-// MARK: - Setup Camera Session
+// MARK: - Camera Session Setup
 extension CameraVC {
     
     func setupAVSession() throws {
@@ -119,9 +119,10 @@ extension CameraVC {
     }
 }
 
-// MARK: - Vision Supporting Methods
+// MARK: - Vision Methods
 extension CameraVC {
     
+    // Gets joints from observed pose
     func getBodyJointsFor(observation: VNHumanBodyPoseObservation) -> ([VNHumanBodyPoseObservation.JointName: CGPoint]) {
         var joints = [VNHumanBodyPoseObservation.JointName: CGPoint]()
         guard let identifiedPoints = try? observation.recognizedPoints(.all) else {
@@ -136,12 +137,16 @@ extension CameraVC {
         return joints
     }
     
+    
+    // Bounding box
     func updateBoundingBox(_ boundingBox: BoundingBoxView, withRect rect: CGRect?) {
         // Update the frame for player bounding box
         boundingBox.frame = rect ?? .zero
         boundingBox.perform(transition: (rect == nil ? .fadeOut : .fadeIn), duration: 0.1)
     }
     
+    
+    // Human bounding box
     func humanBoundingBox(for observation: VNHumanBodyPoseObservation) -> CGRect {
         let bodyPoseDetectionMinConfidence: VNConfidence = 0.6
         let bodyPoseRecognizedPointMinConfidence: VNConfidence = 0.1
