@@ -104,8 +104,22 @@ extension Comparable where Self: Numeric {
     }
 }
 
+extension UIImageView {
+    
+    // Retrieve a Image by it`s name
+    func addImage(name: String) {
+        
+        // Case Image does not Exists
+        guard let uiImage = UIImage(named: name) else { return self.backgroundColor = .white }
+        
+        // Returns Chosen UIImage
+        return self.image = uiImage
+    }
+}
+
 extension UIViewController {
 
+    /// Presents given view controller in fullscreen
     func presentFullScreen(_ nextVC: UIViewController) {
         nextVC.modalPresentationStyle = .fullScreen
         nextVC.navigationController?.isNavigationBarHidden = false
