@@ -19,7 +19,7 @@ class Predictor {
     private let classifier: ActionClassifier
     
     /// Referenced action to detect
-    let selectedModel: AvailableMLModels
+    let selectedModel: MLModels
     
     /// Model configuration
     let config = MLModelConfiguration()
@@ -30,12 +30,12 @@ class Predictor {
     /// The prediction window size specified on the Model Metadata
     private let predictionWindowSize = 15
     
-    init(currentModel: AvailableMLModels) {
+    init(currentModel: MLModels) {
         self.selectedModel = currentModel
         
         /// Set classifier for respective action
         do {
-            classifier = try ActionClassifier(configuration: config, currentModel: AvailableMLModels(rawValue: currentModel.rawValue)!)
+            classifier = try ActionClassifier(configuration: config, currentModel: MLModels(rawValue: currentModel.rawValue)!)
         } catch {
             print("Error on creating \(currentModel.rawValue)Classifier. | Message: \(error)")
             fatalError("Couldn't create \(currentModel.rawValue)Classifier")

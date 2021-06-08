@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Actions Available to Classify
-enum AvailableMLModels: String {
+enum MLModels: String {
     case juggling = "JugglingClassifier"
 }
 

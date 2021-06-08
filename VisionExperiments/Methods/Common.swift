@@ -97,10 +97,19 @@ extension UIBezierPath {
 
 extension Comparable where Self: Numeric {
     
-    /// Format number of digits
+    /// Gets confidence percentage from CreateML prediction string format as string
     func formatDigits(numberOfDigits: Int = 2)->String {
         
         return String(format: "%.\(numberOfDigits)f", self as! CVarArg)
+    }
+}
+
+extension UIViewController {
+
+    func presentFullScreen(_ nextVC: UIViewController) {
+        nextVC.modalPresentationStyle = .fullScreen
+        nextVC.navigationController?.isNavigationBarHidden = false
+        self.present(nextVC, animated: true, completion: nil)
     }
 }
 // MARK: - Errors

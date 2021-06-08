@@ -47,8 +47,16 @@ class CameraVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     private var cameraFeedSession: AVCaptureSession?
     
     /// Perdictor
-    var predictor = Predictor(currentModel: .juggling)
+    var predictor: Predictor
     
+    init(currentModel: MLModels) {
+        self.predictor = Predictor(currentModel: currentModel)
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 // MARK: - Camera Session Setup

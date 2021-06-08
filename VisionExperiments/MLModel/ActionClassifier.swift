@@ -78,10 +78,10 @@ class ActionClassifier {
     let model: MLModel
     
     /// Referenced Action
-    let selectedModel: AvailableMLModels
+    let selectedModel: MLModels
     
     /// URL of model assuming it was installed in the same bundle as this class
-    class func urlOfModelInThisBundle(currentModel: AvailableMLModels) throws ->URL {
+    class func urlOfModelInThisBundle(currentModel: MLModels) throws ->URL {
         let bundle = Bundle.main
         
         /// Try to find requested model url
@@ -95,7 +95,7 @@ class ActionClassifier {
     }
     
     
-    init(model: MLModel, currentModel: AvailableMLModels) {
+    init(model: MLModel, currentModel: MLModels) {
         
         self.model = model
         self.selectedModel = currentModel
@@ -105,7 +105,7 @@ class ActionClassifier {
         Construct ActionClassifier instance by automatically loading the model from the app's bundle and receiving action
     */
     @available(*, deprecated, message: "Use init(configuration:) instead and handle errors appropriately.")
-    convenience init(currentModel: AvailableMLModels) {
+    convenience init(currentModel: MLModels) {
         try! self.init(contentsOf: Self.urlOfModelInThisBundle(currentModel: currentModel), currentModel: currentModel)
     }
 
@@ -118,7 +118,7 @@ class ActionClassifier {
 
         - throws: an NSError object that describes the problem
     */
-    convenience init(configuration: MLModelConfiguration, currentModel: AvailableMLModels) throws {
+    convenience init(configuration: MLModelConfiguration, currentModel: MLModels) throws {
         try self.init(contentsOf: Self.urlOfModelInThisBundle(currentModel: currentModel), configuration: configuration, currentModel: currentModel)
     }
 
@@ -130,7 +130,7 @@ class ActionClassifier {
 
         - throws: an NSError object that describes the problem
     */
-    convenience init(contentsOf modelURL: URL, currentModel: AvailableMLModels) throws {
+    convenience init(contentsOf modelURL: URL, currentModel: MLModels) throws {
         try self.init(model: MLModel(contentsOf: modelURL), currentModel: currentModel)
     }
 
@@ -144,7 +144,7 @@ class ActionClassifier {
      
         - throws: an NSError object that describes the problem
     */
-    convenience init(contentsOf modelURL: URL, configuration: MLModelConfiguration, currentModel: AvailableMLModels) throws {
+    convenience init(contentsOf modelURL: URL, configuration: MLModelConfiguration, currentModel: MLModels) throws {
         try self.init(model: MLModel(contentsOf: modelURL, configuration: configuration), currentModel: currentModel)
     }
     /**
