@@ -27,6 +27,9 @@ class JugglingVC: CameraVC, CameraSessionDelegate {
     /// Counter label
     private let counterLabel = UILabel()
     
+    /// Return button
+    let returnButton = UIButton()
+    
     /// Flip Camera Button
     let flipCameraButton = UIButton()
     
@@ -120,12 +123,8 @@ extension JugglingVC {
     func setupClassifierLabel() {
         view.addSubview(classifierLabel)
         classifierLabelConstraints()
-        classifierLabel.backgroundColor = .orange
-        classifierLabel.textAlignment = .center
-        classifierLabel.layer.cornerRadius = 15
-        classifierLabel.textColor = .white
-        classifierLabel.layer.masksToBounds = true
-        classifierLabel.setHelveticaBold(fontSize: 20)
+        classifierLabel.customShapeLayout()
+        classifierLabel.customLabelLayout(fontSize: 20)
     }
     
     
@@ -133,26 +132,16 @@ extension JugglingVC {
     func setupHighScoreLabel() {
         view.addSubview(highScoreLabel)
         highScoreLabelConstraints()
-        highScoreLabel.backgroundColor = .orange
-        highScoreLabel.textAlignment = .center
-        highScoreLabel.layer.cornerRadius = 15
-        highScoreLabel.textColor = .white
-        highScoreLabel.layer.masksToBounds = true
-        highScoreLabel.text = "\(highScore)"
-        highScoreLabel.setHelveticaBold(fontSize: 20)
+        highScoreLabel.customShapeLayout()
+        highScoreLabel.customLabelLayout(fontSize: 20, text: "\(highScore)")
     }
     
     /// Tier 3 - Setup confidence label UI
     func setupConficendeLabel() {
         view.addSubview(confidenceLabel)
         confidenceLabelConstraints()
-        confidenceLabel.backgroundColor = .orange
-        confidenceLabel.textAlignment = .center
-        confidenceLabel.layer.cornerRadius = 15
-        confidenceLabel.textColor = .white
-        confidenceLabel.layer.masksToBounds = true
-        confidenceLabel.setHelveticaBold(fontSize: 13)
-        confidenceLabel.text = "\(currentConfidence)%"
+        confidenceLabel.customShapeLayout()
+        confidenceLabel.customLabelLayout(fontSize: 13, text: "\(currentConfidence)%")
     }
     
     /// Tier 4 - Setup best label UI
@@ -162,7 +151,7 @@ extension JugglingVC {
         bestLabel.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
         bestLabel.textAlignment = .center
         bestLabel.textColor = .orange
-        bestLabel.setHelveticaBold(fontSize: 20)
+        bestLabel.setHelveticaBold(20)
         bestLabel.text = "Best"
     }
     
@@ -171,22 +160,28 @@ extension JugglingVC {
         view.addSubview(counterLabel)
         counterLabelConstraints()
         counterLabel.backgroundColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0)
-        counterLabel.textAlignment = .center
         counterLabel.textColor = UIColor(displayP3Red: 0, green: 0, blue: 0, alpha: 0.65)
         counterLabel.font = confidenceLabel.font.withSize(200)
+        counterLabel.textAlignment = .center
         counterLabel.text = ""
     }
-    
-    /// Tier 6 - Setup Flip Camera Button
+    /// Tier 6 - Setup return button
+    func setupReturnButton() {
+        view.addSubview(returnButton)
+        returnButtonConstraints()
+        returnButton.customShapeLayout()
+        returnButton.setImage(UIImage(systemName: "arrowshape.turn.up.backward.fill"), for: .normal)
+        returnButton.addTarget(self, action: #selector(self.dismissVC), for: .touchUpInside)
+        returnButton.tintColor = .white
+    }
+    /// Tier 7 - Setup flip camera button
     func setupFlipCameraButton() {
         view.addSubview(flipCameraButton)
         flipCameraButtonConstraints()
-        flipCameraButton.backgroundColor = .orange
-        flipCameraButton.layer.cornerRadius = 15
-        flipCameraButton.layer.masksToBounds = true
+        flipCameraButton.customShapeLayout()
         flipCameraButton.setImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera.fill"), for: .normal)
-        flipCameraButton.tintColor = .white
         flipCameraButton.addTarget(self, action: #selector(flipCamera), for: .touchUpInside)
+        flipCameraButton.tintColor = .white
     }
     
     /// Setup SubViews
@@ -210,7 +205,10 @@ extension JugglingVC {
         /// Tier 5 - Counter label
         setupCounterLabel()
         
-        /// Tier 6 - Flip camera button
+        /// Tier 6 - Setup return button
+        setupReturnButton()
+        
+        /// Tier 7 - Flip camera button
         setupFlipCameraButton()
     }
 }
@@ -222,7 +220,7 @@ extension JugglingVC {
     func classifierLabelConstraints() {
         classifierLabel.translatesAutoresizingMaskIntoConstraints = false
         classifierLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        classifierLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: view.frame.height*0.15).isActive = true
+        classifierLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: ViewConstants.vSpace*1.5).isActive = true
         classifierLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
         classifierLabel.heightAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.25).isActive = true
     }
@@ -263,11 +261,20 @@ extension JugglingVC {
         counterLabel.heightAnchor.constraint(equalTo: counterLabel.widthAnchor, multiplier: 0.8).isActive = true
     }
     
-    /// Tier 6 - Flip camera button contraints
+    /// Tier 6 - Return button contraints
+    func returnButtonConstraints() {
+        returnButton.translatesAutoresizingMaskIntoConstraints = false
+        returnButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: ViewConstants.hSpace/2).isActive = true
+        returnButton.centerYAnchor.constraint(equalTo: classifierLabel.centerYAnchor).isActive = true
+        returnButton.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
+        returnButton.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
+    }
+    
+    /// Tier 7 - Flip camera button contraints
     func flipCameraButtonConstraints() {
         flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
-        flipCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: view.frame.width*0.05).isActive = true
-        flipCameraButton.centerYAnchor.constraint(equalTo: classifierLabel.centerYAnchor).isActive = true
+        flipCameraButton.centerXAnchor.constraint(equalTo: bestLabel.centerXAnchor).isActive = true
+        flipCameraButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -ViewConstants.vSpace).isActive = true
         flipCameraButton.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
         flipCameraButton.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
     }

@@ -22,9 +22,6 @@ class HomeVC: UIViewController {
     /// Tagline label
     let taglineLabel = UILabel()
     
-    /// Space
-    let space = UIScreen.main.bounds.height*0.1
-    
     override func viewDidLoad() {
         view.backgroundColor = .black
         setupSubviews()
@@ -43,20 +40,18 @@ class HomeVC: UIViewController {
     /// Tier 2 - Juggling Button
     func setupJugglingButton() {
         view.addSubview(jugglingButton)
+        jugglingButtonConstraints()
         jugglingButton.addTarget(self, action: #selector(actionChoice(sender:)), for: .touchUpInside)
         jugglingButton.setTitle("Juggling Challenge", for: .normal)
-        jugglingButton.titleLabel?.setHelveticaBold(fontSize: 20)
-        jugglingButtonConstraints()
+        jugglingButton.titleLabel?.setHelveticaBold(20)
     }
     
     /// Tier 3 - Crossbar Button
     func setupCrossbarButton() {
         view.addSubview(crossbarButton)
-        crossbarButton.titleLabel?.lineBreakMode = .byCharWrapping
-        crossbarButton.setTitle("Crossbar Challenge\n(Coming Soon)", for: .normal)
-        crossbarButton.titleLabel?.setHelveticaBold(fontSize: 20)
-        crossbarButton.titleLabel?.textAlignment = .center
         crossbarButtonConstraints()
+        crossbarButton.setTitle("Crossbar Challenge\n(Coming Soon) ", for: .normal)
+        crossbarButton.titleLabel?.setHelveticaBold(20)
     }
     
     /// Tier 4 - Tagline label
@@ -64,7 +59,7 @@ class HomeVC: UIViewController {
         view.addSubview(taglineLabel)
         taglineLabel.text = "Time To Play Real"
         taglineLabel.textAlignment = .center
-        taglineLabel.setHelveticaBold(fontSize: 30)
+        taglineLabel.setHelveticaBold(30)
         taglineLabel.textColor = .orange
         taglineLabelConstraints()
     }
@@ -83,7 +78,7 @@ class HomeVC: UIViewController {
     func logoImageConstraints() {
         logoImage.translatesAutoresizingMaskIntoConstraints = false
         logoImage.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        logoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: space).isActive = true
+        logoImage.topAnchor.constraint(equalTo: view.topAnchor, constant: ViewConstants.vSpace).isActive = true
         logoImage.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         logoImage.heightAnchor.constraint(equalTo: logoImage.widthAnchor).isActive = true
     }
@@ -91,7 +86,7 @@ class HomeVC: UIViewController {
     func jugglingButtonConstraints() {
         jugglingButton.translatesAutoresizingMaskIntoConstraints = false
         jugglingButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        jugglingButton.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: space).isActive = true
+        jugglingButton.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: ViewConstants.vSpace).isActive = true
         jugglingButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         jugglingButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25).isActive = true
     }
@@ -99,7 +94,7 @@ class HomeVC: UIViewController {
     func crossbarButtonConstraints() {
         crossbarButton.translatesAutoresizingMaskIntoConstraints = false
         crossbarButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        crossbarButton.topAnchor.constraint(equalTo: jugglingButton.bottomAnchor, constant: space/2).isActive = true
+        crossbarButton.topAnchor.constraint(equalTo: jugglingButton.bottomAnchor, constant: ViewConstants.vSpace/2).isActive = true
         crossbarButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6).isActive = true
         crossbarButton.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.25).isActive = true
     }

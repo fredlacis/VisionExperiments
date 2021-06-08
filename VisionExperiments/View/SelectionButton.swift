@@ -16,7 +16,7 @@ class SelectionButton: UIButton  {
         self.mlModel = mlModel
         super.init(frame: .zero)
         selectionButtonLayout()
-        
+        selectionButtonLabelLayout()
     }
     
     /// Button Layout
@@ -24,6 +24,13 @@ class SelectionButton: UIButton  {
         self.backgroundColor = .orange
         self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
+    }
+    
+    /// Button label layout
+    func selectionButtonLabelLayout() {
+        self.titleLabel?.lineBreakMode = .byCharWrapping
+        self.titleLabel?.textAlignment = .center
+        self.titleLabel?.textColor = .white
     }
 
     required init?(coder: NSCoder) {

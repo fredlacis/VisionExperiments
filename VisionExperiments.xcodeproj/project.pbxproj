@@ -14,6 +14,10 @@
 		4D91815A266EE7CB00674F78 /* MLModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918159266EE7CB00674F78 /* MLModels.swift */; };
 		4D918162266FD05E00674F78 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918161266FD05E00674F78 /* HomeVC.swift */; };
 		4D918165266FF01C00674F78 /* SelectionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918164266FF01C00674F78 /* SelectionButton.swift */; };
+		4D918167267009FD00674F78 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918166267009FD00674F78 /* UIViewExtensions.swift */; };
+		4D91816926700A7D00674F78 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91816826700A7D00674F78 /* UIViewControllerExtensions.swift */; };
+		4D91816F26700B1500674F78 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91816E26700B1500674F78 /* ViewConstants.swift */; };
+		4D91817126700E1700674F78 /* UIIMageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91817026700E1700674F78 /* UIIMageExtensions.swift */; };
 		4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */; };
 		4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB90A9F2643811C00407C33 /* DetectedAction.swift */; };
 		D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */; };
@@ -37,6 +41,10 @@
 		4D918159266EE7CB00674F78 /* MLModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLModels.swift; sourceTree = "<group>"; };
 		4D918161266FD05E00674F78 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVC.swift; sourceTree = "<group>"; };
 		4D918164266FF01C00674F78 /* SelectionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionButton.swift; sourceTree = "<group>"; };
+		4D918166267009FD00674F78 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		4D91816826700A7D00674F78 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
+		4D91816E26700B1500674F78 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
+		4D91817026700E1700674F78 /* UIIMageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIIMageExtensions.swift; sourceTree = "<group>"; };
 		4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		4DB90A9F2643811C00407C33 /* DetectedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedAction.swift; sourceTree = "<group>"; };
 		D4627CBF263A3E2A00C46E27 /* VisionExperiments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExperiments.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,12 +92,16 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		4D91815F266F036600674F78 /* Methods */ = {
+		4D91815F266F036600674F78 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */,
+				4D918166267009FD00674F78 /* UIViewExtensions.swift */,
+				4D91816826700A7D00674F78 /* UIViewControllerExtensions.swift */,
+				4D91817026700E1700674F78 /* UIIMageExtensions.swift */,
 				D4638A88263AE067002C24DF /* Common.swift */,
 			);
-			path = Methods;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		4D918160266F043B00674F78 /* Model */ = {
@@ -105,7 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				D4C194E7263C3EB300C8683A /* AnimatedTransitioning.swift */,
-				4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */,
+				4D91816E26700B1500674F78 /* ViewConstants.swift */,
 			);
 			path = Methods;
 			sourceTree = "<group>";
@@ -134,7 +146,7 @@
 				D4C194E4263C3E9800C8683A /* View */,
 				4D918160266F043B00674F78 /* Model */,
 				4D91815C266F02B500674F78 /* MLModel */,
-				4D91815F266F036600674F78 /* Methods */,
+				4D91815F266F036600674F78 /* Extensions */,
 				D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */,
 				D4627CC8263A3E2A00C46E27 /* Main.storyboard */,
 				D4627CCB263A3E2B00C46E27 /* Assets.xcassets */,
@@ -243,7 +255,10 @@
 				4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */,
 				4D918156266ECCD900674F78 /* Predictor.swift in Sources */,
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
+				4D91816926700A7D00674F78 /* UIViewControllerExtensions.swift in Sources */,
 				4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */,
+				4D91817126700E1700674F78 /* UIIMageExtensions.swift in Sources */,
+				4D91816F26700B1500674F78 /* ViewConstants.swift in Sources */,
 				4D91815A266EE7CB00674F78 /* MLModels.swift in Sources */,
 				4D918162266FD05E00674F78 /* HomeVC.swift in Sources */,
 				D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */,
@@ -252,6 +267,7 @@
 				4D91814A266BF43900674F78 /* CameraVC.swift in Sources */,
 				4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */,
 				D4627CC5263A3E2A00C46E27 /* SceneDelegate.swift in Sources */,
+				4D918167267009FD00674F78 /* UIViewExtensions.swift in Sources */,
 				4D918165266FF01C00674F78 /* SelectionButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
