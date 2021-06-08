@@ -19,7 +19,7 @@ class Predictor {
     private let classifier: ActionClassifier
     
     /// Referenced action to detect
-    let availableMLModels: AvailableMLModels
+    let selectedModel: AvailableMLModels
     
     /// Model configuration
     let config = MLModelConfiguration()
@@ -30,15 +30,15 @@ class Predictor {
     /// The prediction window size specified on the Model Metadata
     private let predictionWindowSize = 15
     
-    init(availableMLModels: AvailableMLModels) {
-        self.availableMLModels = availableMLModels
+    init(currentModel: AvailableMLModels) {
+        self.selectedModel = currentModel
         
         /// Set classifier for respective action
         do {
-            classifier = try ActionClassifier(configuration: config, availableMLModels: AvailableMLModels(rawValue: availableMLModels.rawValue)!)
+            classifier = try ActionClassifier(configuration: config, currentModel: AvailableMLModels(rawValue: currentModel.rawValue)!)
         } catch {
-            print("Error on creating JugglingClassifier. | Message: \(error)")
-            fatalError("Couldn't create JugglingClassifier")
+            print("Error on creating \(currentModel.rawValue)Classifier. | Message: \(error)")
+            fatalError("Couldn't create \(currentModel.rawValue)Classifier")
         }
         /// restricts the window to the predictWindowSize
         posesWindow.reserveCapacity(predictionWindowSize)

@@ -47,7 +47,7 @@ class CameraVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     private var cameraFeedSession: AVCaptureSession?
     
     /// Perdictor
-    var predictor = Predictor(availableMLModels: .juggling)
+    var predictor = Predictor(currentModel: .juggling)
     
 }
 

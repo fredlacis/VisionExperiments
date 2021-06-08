@@ -97,7 +97,7 @@ extension UIBezierPath {
 
 extension Comparable where Self: Numeric {
     
-    /// Gets confidence percentage from CreateML prediction string format as string
+    /// Format number of digits
     func formatDigits(numberOfDigits: Int = 2)->String {
         
         return String(format: "%.\(numberOfDigits)f", self as! CVarArg)
