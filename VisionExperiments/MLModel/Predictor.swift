@@ -86,7 +86,7 @@ class Predictor {
         posesWindow = []
         
         /// Prediction result
-        let output = DetectedAction(action: Action(rawValue: preditcions.label) ?? .other, confidence: (preditcions.labelProbabilities[preditcions.label] ?? 0))
+        let output = DetectedAction(action: Actions(rawValue: preditcions.label) ?? .other, confidence: (preditcions.labelProbabilities[preditcions.label] ?? 0))
         
         return output
     }
