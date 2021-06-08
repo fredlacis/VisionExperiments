@@ -17,7 +17,7 @@
 		4D918167267009FD00674F78 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918166267009FD00674F78 /* UIViewExtensions.swift */; };
 		4D91816926700A7D00674F78 /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91816826700A7D00674F78 /* UIViewControllerExtensions.swift */; };
 		4D91816F26700B1500674F78 /* ViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91816E26700B1500674F78 /* ViewConstants.swift */; };
-		4D91817126700E1700674F78 /* UIIMageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91817026700E1700674F78 /* UIIMageExtensions.swift */; };
+		4D91817126700E1700674F78 /* UIImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91817026700E1700674F78 /* UIImageExtensions.swift */; };
 		4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */; };
 		4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB90A9F2643811C00407C33 /* DetectedAction.swift */; };
 		D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */; };
@@ -44,7 +44,7 @@
 		4D918166267009FD00674F78 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
 		4D91816826700A7D00674F78 /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		4D91816E26700B1500674F78 /* ViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewConstants.swift; sourceTree = "<group>"; };
-		4D91817026700E1700674F78 /* UIIMageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIIMageExtensions.swift; sourceTree = "<group>"; };
+		4D91817026700E1700674F78 /* UIImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageExtensions.swift; sourceTree = "<group>"; };
 		4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		4DB90A9F2643811C00407C33 /* DetectedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedAction.swift; sourceTree = "<group>"; };
 		D4627CBF263A3E2A00C46E27 /* VisionExperiments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExperiments.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -98,7 +98,7 @@
 				4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */,
 				4D918166267009FD00674F78 /* UIViewExtensions.swift */,
 				4D91816826700A7D00674F78 /* UIViewControllerExtensions.swift */,
-				4D91817026700E1700674F78 /* UIIMageExtensions.swift */,
+				4D91817026700E1700674F78 /* UIImageExtensions.swift */,
 				D4638A88263AE067002C24DF /* Common.swift */,
 			);
 			path = Extensions;
@@ -257,7 +257,7 @@
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
 				4D91816926700A7D00674F78 /* UIViewControllerExtensions.swift in Sources */,
 				4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */,
-				4D91817126700E1700674F78 /* UIIMageExtensions.swift in Sources */,
+				4D91817126700E1700674F78 /* UIImageExtensions.swift in Sources */,
 				4D91816F26700B1500674F78 /* ViewConstants.swift in Sources */,
 				4D91815A266EE7CB00674F78 /* MLModels.swift in Sources */,
 				4D918162266FD05E00674F78 /* HomeVC.swift in Sources */,
