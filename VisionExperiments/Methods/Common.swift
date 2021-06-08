@@ -8,23 +8,6 @@
 import UIKit
 import Vision
 
-/// Points of interest to predict Juggling
-//let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
-//    .rightWrist,
-//    .rightElbow,
-//    .rightShoulder,
-//    .rightHip,
-//    .rightKnee,
-//    .rightAnkle,
-//
-//    .leftWrist,
-//    .leftElbow,
-//    .leftShoulder,
-//    .leftHip,
-//    .leftKnee,
-//    .leftAnkle,
-//]
-
 let leftJointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .leftWrist,
     .leftElbow,
@@ -49,10 +32,7 @@ let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = {
     return left
 }()
 
-/// Test points to debug display
-// let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [.nose, .leftEye, .rightEye]
-
-// MARK: - Helper extensions
+// MARK: - Support Extensions
 
 extension CGPoint {
     func distance(to point: CGPoint) -> CGFloat {
@@ -75,7 +55,7 @@ extension UIBezierPath {
         self.init()
         let cornerSizeH = cornerSize.width
         let cornerSizeV = cornerSize.height
-        // top-left
+        /// top-left
         move(to: CGPoint(x: borderRect.minX, y: borderRect.minY + cornerSizeV + cornerRadius))
         addLine(to: CGPoint(x: borderRect.minX, y: borderRect.minY + cornerRadius))
         addArc(withCenter: CGPoint(x: borderRect.minX + cornerRadius, y: borderRect.minY + cornerRadius),
@@ -84,7 +64,7 @@ extension UIBezierPath {
                endAngle: -CGFloat.pi / 2,
                clockwise: true)
         addLine(to: CGPoint(x: borderRect.minX + cornerSizeH + cornerRadius, y: borderRect.minY))
-        // top-right
+        /// top-right
         move(to: CGPoint(x: borderRect.maxX - cornerSizeH - cornerRadius, y: borderRect.minY))
         addLine(to: CGPoint(x: borderRect.maxX - cornerRadius, y: borderRect.minY))
         addArc(withCenter: CGPoint(x: borderRect.maxX - cornerRadius, y: borderRect.minY + cornerRadius),
@@ -93,7 +73,7 @@ extension UIBezierPath {
                endAngle: 0,
                clockwise: true)
         addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.minY + cornerSizeV + cornerRadius))
-        // bottom-right
+        /// bottom-right
         move(to: CGPoint(x: borderRect.maxX, y: borderRect.maxY - cornerSizeV - cornerRadius))
         addLine(to: CGPoint(x: borderRect.maxX, y: borderRect.maxY - cornerRadius))
         addArc(withCenter: CGPoint(x: borderRect.maxX - cornerRadius, y: borderRect.maxY - cornerRadius),
@@ -102,7 +82,7 @@ extension UIBezierPath {
                endAngle: CGFloat.pi / 2,
                clockwise: true)
         addLine(to: CGPoint(x: borderRect.maxX - cornerSizeH - cornerRadius, y: borderRect.maxY))
-        // bottom-left
+        /// bottom-left
         move(to: CGPoint(x: borderRect.minX + cornerSizeH + cornerRadius, y: borderRect.maxY))
         addLine(to: CGPoint(x: borderRect.minX + cornerRadius, y: borderRect.maxY))
         addArc(withCenter: CGPoint(x: borderRect.minX + cornerRadius,

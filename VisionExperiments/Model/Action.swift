@@ -7,6 +7,7 @@
 
 import Foundation
 
+// MARK: - Actions Available to Classify
 enum Action: String {
     case juggling = "Juggling"
 }
