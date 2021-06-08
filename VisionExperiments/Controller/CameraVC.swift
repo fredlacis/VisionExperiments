@@ -195,10 +195,6 @@ extension CameraVC {
     func viewRectForVisionRect(_ visionRect: CGRect) -> CGRect {
         let flippedRect = visionRect.applying(CGAffineTransform.verticalFlip)
         
-        if cameraPosition == .front {
-            flippedRect.applying(CGAffineTransform.horizontalFlip)
-        }
-        
         let viewRect: CGRect
         
         viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
@@ -270,8 +266,28 @@ extension CameraVC {
     
     /// Flips camera
     @objc func flipCamera() {
+        
+        /// Update new position
         cameraPosition = cameraPosition == .front ? .back : .front
+        
+        /// Send information to respective VC
         cameraSessionDelegate?.flipped(to: cameraPosition)
+        
+        /// Change MLModel analysis orientation
+        setPredictorOrientation()
+    }
+    
+    /// Updates MLModel analysis orientation
+    func setPredictorOrientation() {
+        
+        /// Front camera corresponds to left mirrored orientation
+        if cameraPosition == .front {
+            predictor.orientation = .leftMirrored
+        }
+        /// Back camera corresponds to right orientation
+        else {
+            predictor.orientation = .right
+        }
     }
 }
 

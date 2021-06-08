@@ -23,6 +23,9 @@ class Predictor {
     
     /// Model configuration
     let config = MLModelConfiguration()
+    
+    /// Orientation: Back camera --> Right | Front camera --> Left Mirrored
+    var orientation: CGImagePropertyOrientation = .right
 
     /// Vision body pose request
     private let humanBodyPoseRequest = VNDetectHumanBodyPoseRequest()
@@ -97,7 +100,7 @@ extension Predictor {
     
     /// Receives a CMSampleBuffer and returns the Human Poses in it
     func extractPoses(from sampleBuffer: CMSampleBuffer) -> [VNHumanBodyPoseObservation] {
-        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .right, options: [:])
+        let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: orientation, options: [:])
         
         do {
             try handler.perform([humanBodyPoseRequest])
