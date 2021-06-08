@@ -15,4 +15,8 @@ extension UIView {
         self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
     }
+    /// Flip view horizontally.
+    func flipHorizontally() {
+        transform = CGAffineTransform(scaleX: -transform.a, y: transform.d)
+    }
 }

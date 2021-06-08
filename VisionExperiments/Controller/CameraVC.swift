@@ -47,7 +47,7 @@ class CameraVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
     private var cameraFeedSession: AVCaptureSession?
     
     /// Perdictor
-    var predictor: Predictor
+    let predictor: Predictor
     
     init(currentModel: MLModels) {
         self.predictor = Predictor(currentModel: currentModel)
@@ -116,6 +116,8 @@ extension CameraVC {
         switch view.window?.windowScene?.interfaceOrientation {
         case .landscapeRight:
             videoOrientation = .landscapeRight
+//        case .landscapeLeft:
+//            videoOrientation = .landscapeLeft
         default:
             videoOrientation = .portrait
         }
@@ -192,10 +194,15 @@ extension CameraVC {
     //
     func viewRectForVisionRect(_ visionRect: CGRect) -> CGRect {
         let flippedRect = visionRect.applying(CGAffineTransform.verticalFlip)
+        
+        if cameraPosition == .front {
+            flippedRect.applying(CGAffineTransform.horizontalFlip)
+        }
+        
         let viewRect: CGRect
         
         viewRect = cameraFeedView.viewRectConverted(fromNormalizedContentsRect: flippedRect)
-        
+
         return viewRect
     }
     
@@ -209,6 +216,7 @@ extension CameraVC {
     //
     func viewPointForVisionPoint(_ visionPoint: CGPoint) -> CGPoint {
         let flippedPoint = visionPoint.applying(CGAffineTransform.verticalFlip)
+        
         let viewPoint: CGPoint
         
         viewPoint = cameraFeedView.viewPointConverted(fromNormalizedContentsPoint: flippedPoint)
@@ -238,6 +246,7 @@ extension CameraVC {
                 let viewRect = self.viewRectForVisionRect(box).insetBy(dx: inset, dy: inset)
                 self.updateBoundingBox(boxView, withRect: viewRect)
                 let normalizedFrame = CGRect(x: 0, y: 0, width: 1, height: 1)
+                
                 self.jointSegmentView.frame = self.viewRectForVisionRect(normalizedFrame)
             }
         }

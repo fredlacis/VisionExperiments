@@ -141,7 +141,7 @@ extension JugglingVC {
         view.addSubview(confidenceLabel)
         confidenceLabelConstraints()
         confidenceLabel.customShapeLayout()
-        confidenceLabel.customLabelLayout(fontSize: 13, text: "\(currentConfidence)%")
+        confidenceLabel.customLabelLayout(fontSize: 13, text: "")
     }
     
     /// Tier 4 - Setup best label UI
