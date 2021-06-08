@@ -11,7 +11,7 @@ extension String {
     
     // Gets the action with respective confidence from predtion string format
     func getAction()->DetectedAction {
-        
+
         // Case juggling
         if self.getLabel() == "Juggling" {
             return DetectedAction.juggling(Double(self.getConfidence()) ?? 0.0)

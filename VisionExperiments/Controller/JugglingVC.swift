@@ -9,53 +9,54 @@ import UIKit
 import AVFoundation
 import Vision
 
+// MARK: - Juggling View Controller
 class JugglingVC: CameraVC, CameraSessionDelegate {
 
-    // Classifier label
+    /// Classifier label
     private let classifierLabel = UILabel()
     
-    // High Score label
+    /// High Score label
     private let highScoreLabel = UILabel()
     
-    // Confidence label
+    /// Confidence label
     private let confidenceLabel = UILabel()
     
-    // Best label
+    /// Best label
     private let bestLabel = UILabel()
     
-    // Counter label
+    /// Counter label
     private let counterLabel = UILabel()
     
-    // Flip Camera Button
+    /// Flip Camera Button
     let flipCameraButton = UIButton()
     
-    // Counter
+    /// Counter
     private var count: Int = 0
     
-    // High score
+    /// High score
     private var highScore: Int = 0
     
-    // Current confidence
+    /// Current confidence
     private var currentConfidence: Double = 0
     
-    // Live camera feed management
+    /// Live camera feed management
     private var cameraFeedView: CameraFeedView!
     private var cameraFeedSession: AVCaptureSession?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // Camera delegate
+        /// Camera delegate
         cameraSessionDelegate = self
         
-        // Setup subviews layout and constraints
+        /// Setup subviews layout and constraints
         setupSubiews()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        // Stop capture session if it's running
+        /// Stop capture session if it's running
         cameraFeedSession?.stopRunning()
     }
 }
@@ -63,24 +64,24 @@ class JugglingVC: CameraVC, CameraSessionDelegate {
 // MARK: - Methods
 extension JugglingVC {
     
-    // Camera flipped
+    /// Camera flipped
     func flipped(to: AVCaptureDevice.Position) {
         setupSubiews()
     }
     
-    // ML prediction
+    /// ML prediction
     func makePrediction() {
         if predictor.isReadyToPredict {
             do {
                 let prediction = try predictor.makePrediction()
                 
-                // Detects which action is been performed
+                /// Detects which action is been performed
                 switch prediction.getAction() {
                 
                 case .juggling(let confidence):
                     count+=1
                     currentConfidence = confidence
-                    // Checks if it beats high score
+                    /// Checks if it beats high score
                     highScore = highScore <= count ? count : highScore
                     
                 case .other(let confidence):
@@ -88,10 +89,10 @@ extension JugglingVC {
                     currentConfidence = confidence
                 }
                 
-                // Updates main theread UI
+                /// Updates main theread UI
                 DispatchQueue.main.async {
                     
-                    // Confirm juggling with basic filter
+                    /// Confirm juggling with basic filter
                     if self.count >= 3 {
                         self.counterLabel.text = "\(self.count)"
                         self.highScoreLabel.text = "\(self.highScore)"
@@ -100,10 +101,10 @@ extension JugglingVC {
                         self.counterLabel.text = ""
                     }
                     
-                    // Prediction
+                    /// Prediction
                     self.classifierLabel.text = "\(prediction.getLabel() == "Juggling" ? "Juggling" : "Not Juggling")"
                     
-                    // Confidence
+                    /// Confidence
                     self.confidenceLabel.text = "\(self.currentConfidence)%"
                 }
             } catch {
@@ -115,7 +116,7 @@ extension JugglingVC {
 // MARK: - View Setup Extensions
 extension JugglingVC {
     
-    // Tier 1 - Setup classifier label UI
+    /// Tier 1 - Setup classifier label UI
     func setupClassifierLabel() {
         view.addSubview(classifierLabel)
         classifierLabelConstraints()
@@ -128,7 +129,7 @@ extension JugglingVC {
     }
     
     
-    // Tier 2 - Setup highscore label UI
+    /// Tier 2 - Setup highscore label UI
     func setupHighScoreLabel() {
         view.addSubview(highScoreLabel)
         highScoreLabelConstraints()
@@ -141,7 +142,7 @@ extension JugglingVC {
         highScoreLabel.setHelveticaBold(fontSize: 20)
     }
     
-    // Tier 3 - Setup confidence label UI
+    /// Tier 3 - Setup confidence label UI
     func setupConficendeLabel() {
         view.addSubview(confidenceLabel)
         confidenceLabelConstraints()
@@ -154,7 +155,7 @@ extension JugglingVC {
         confidenceLabel.text = "\(currentConfidence)%"
     }
     
-    // Tier 4 - Setup best label UI
+    /// Tier 4 - Setup best label UI
     func setupBestLabel() {
         view.addSubview(bestLabel)
         bestLabelConstraints()
@@ -165,7 +166,7 @@ extension JugglingVC {
         bestLabel.text = "Best"
     }
     
-    // Tier 5 - Setup counter label UI
+    /// Tier 5 - Setup counter label UI
     func setupCounterLabel() {
         view.addSubview(counterLabel)
         counterLabelConstraints()
@@ -176,7 +177,7 @@ extension JugglingVC {
         counterLabel.text = ""
     }
     
-    // Tier 6 - Setup Flip Camera Button
+    /// Tier 6 - Setup Flip Camera Button
     func setupFlipCameraButton() {
         view.addSubview(flipCameraButton)
         flipCameraButtonConstraints()
@@ -186,28 +187,28 @@ extension JugglingVC {
         flipCameraButton.addTarget(self, action: #selector(flipCamera), for: .touchUpInside)
     }
     
-    // Setup SubViews
+    /// Setup SubViews
     func setupSubiews() {
         
-        // Tier 0 - Setup camera session
+        /// Tier 0 - Setup camera session
         setupCameraSubviews()
 
-        // Tier 1 - Setup classifier label
+        /// Tier 1 - Setup classifier label
         setupClassifierLabel()
         
-        // Tier 2 - Setup highscore label
+        /// Tier 2 - Setup highscore label
         setupHighScoreLabel()
         
-        // Tier 3 - Setup Confidence label
+        /// Tier 3 - Setup Confidence label
         setupConficendeLabel()
         
-        // Tier 4 - Setup best label
+        /// Tier 4 - Setup best label
         setupBestLabel()
         
-        // Tier 5 - Counter label
+        /// Tier 5 - Counter label
         setupCounterLabel()
         
-        // Tier 6 - Flip camera button
+        /// Tier 6 - Flip camera button
         setupFlipCameraButton()
     }
 }
@@ -215,7 +216,7 @@ extension JugglingVC {
 // MARK: - Constraint Setup Extensions
 extension JugglingVC {
     
-    // Tier 1 - Classifier label constraints
+    /// Tier 1 - Classifier label constraints
     func classifierLabelConstraints() {
         classifierLabel.translatesAutoresizingMaskIntoConstraints = false
         classifierLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -224,7 +225,7 @@ extension JugglingVC {
         classifierLabel.heightAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.25).isActive = true
     }
     
-    // Tier 2 - High score label constrains
+    /// Tier 2 - High score label constrains
     func highScoreLabelConstraints() {
         highScoreLabel.translatesAutoresizingMaskIntoConstraints = false
         highScoreLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -view.frame.width*0.05).isActive = true
@@ -233,7 +234,7 @@ extension JugglingVC {
         highScoreLabel.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
     }
     
-    // Tier 3 - Confidence label constraints
+    /// Tier 3 - Confidence label constraints
     func confidenceLabelConstraints() {
         confidenceLabel.translatesAutoresizingMaskIntoConstraints = false
         confidenceLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -242,7 +243,7 @@ extension JugglingVC {
         confidenceLabel.heightAnchor.constraint(equalTo: confidenceLabel.widthAnchor, multiplier: 0.3).isActive = true
     }
     
-    // Tier 4 - Confidence label constraints
+    /// Tier 4 - Confidence label constraints
     func bestLabelConstraints() {
         bestLabel.translatesAutoresizingMaskIntoConstraints = false
         bestLabel.centerXAnchor.constraint(equalTo: highScoreLabel.centerXAnchor).isActive = true
@@ -251,7 +252,7 @@ extension JugglingVC {
         bestLabel.heightAnchor.constraint(equalTo: bestLabel.widthAnchor).isActive = true
     }
     
-    // Tier 5 - Counter label contraints
+    /// Tier 5 - Counter label contraints
     func counterLabelConstraints() {
         counterLabel.translatesAutoresizingMaskIntoConstraints = false
         counterLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
@@ -260,7 +261,7 @@ extension JugglingVC {
         counterLabel.heightAnchor.constraint(equalTo: counterLabel.widthAnchor, multiplier: 0.8).isActive = true
     }
     
-    // Tier 6 - Flip camera button contraints
+    /// Tier 6 - Flip camera button contraints
     func flipCameraButtonConstraints() {
         flipCameraButton.translatesAutoresizingMaskIntoConstraints = false
         flipCameraButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: view.frame.width*0.05).isActive = true

@@ -9,7 +9,9 @@
 /* Begin PBXBuildFile section */
 		4D91814A266BF43900674F78 /* CameraVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918149266BF43900674F78 /* CameraVC.swift */; };
 		4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91814D266BFD8300674F78 /* JugglingVC.swift */; };
-		4D9C51DE263B098B00872313 /* JugglingPredictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C51DD263B098B00872313 /* JugglingPredictor.swift */; };
+		4D918156266ECCD900674F78 /* Predictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918155266ECCD900674F78 /* Predictor.swift */; };
+		4D918158266EE16100674F78 /* ActionClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918157266EE16100674F78 /* ActionClassifier.swift */; };
+		4D91815A266EE7CB00674F78 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918159266EE7CB00674F78 /* Action.swift */; };
 		4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */; };
 		4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB90A9F2643811C00407C33 /* DetectedAction.swift */; };
 		4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */; };
@@ -29,7 +31,9 @@
 /* Begin PBXFileReference section */
 		4D918149266BF43900674F78 /* CameraVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraVC.swift; sourceTree = "<group>"; };
 		4D91814D266BFD8300674F78 /* JugglingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingVC.swift; sourceTree = "<group>"; };
-		4D9C51DD263B098B00872313 /* JugglingPredictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingPredictor.swift; sourceTree = "<group>"; };
+		4D918155266ECCD900674F78 /* Predictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Predictor.swift; sourceTree = "<group>"; };
+		4D918157266EE16100674F78 /* ActionClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionClassifier.swift; sourceTree = "<group>"; };
+		4D918159266EE7CB00674F78 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		4DB90A9F2643811C00407C33 /* DetectedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedAction.swift; sourceTree = "<group>"; };
 		4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
@@ -59,6 +63,42 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D91815C266F02B500674F78 /* MLModel */ = {
+			isa = PBXGroup;
+			children = (
+				4D918157266EE16100674F78 /* ActionClassifier.swift */,
+				4D918155266ECCD900674F78 /* Predictor.swift */,
+			);
+			path = MLModel;
+			sourceTree = "<group>";
+		};
+		4D91815E266F02DC00674F78 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				4D91814D266BFD8300674F78 /* JugglingVC.swift */,
+				4D918149266BF43900674F78 /* CameraVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		4D91815F266F036600674F78 /* Methods */ = {
+			isa = PBXGroup;
+			children = (
+				D4638A88263AE067002C24DF /* Common.swift */,
+				4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */,
+			);
+			path = Methods;
+			sourceTree = "<group>";
+		};
+		4D918160266F043B00674F78 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4DB90A9F2643811C00407C33 /* DetectedAction.swift */,
+				4D918159266EE7CB00674F78 /* Action.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D4627CB6263A3E2A00C46E27 = {
 			isa = PBXGroup;
 			children = (
@@ -79,13 +119,11 @@
 			isa = PBXGroup;
 			children = (
 				D4C194E9263C478E00C8683A /* App */,
-				4D91814D266BFD8300674F78 /* JugglingVC.swift */,
-				4D918149266BF43900674F78 /* CameraVC.swift */,
-				4D9C51DD263B098B00872313 /* JugglingPredictor.swift */,
-				4DB90A9F2643811C00407C33 /* DetectedAction.swift */,
-				D4C194E4263C3E9800C8683A /* Views */,
-				D4638A88263AE067002C24DF /* Common.swift */,
-				4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */,
+				4D91815E266F02DC00674F78 /* Controller */,
+				D4C194E4263C3E9800C8683A /* View */,
+				4D918160266F043B00674F78 /* Model */,
+				4D91815C266F02B500674F78 /* MLModel */,
+				4D91815F266F036600674F78 /* Methods */,
 				D4638A8A263B0927002C24DF /* JugglingClassifier.mlmodel */,
 				D4627CC8263A3E2A00C46E27 /* Main.storyboard */,
 				D4627CCB263A3E2B00C46E27 /* Assets.xcassets */,
@@ -95,7 +133,7 @@
 			path = VisionExperiments;
 			sourceTree = "<group>";
 		};
-		D4C194E4263C3E9800C8683A /* Views */ = {
+		D4C194E4263C3E9800C8683A /* View */ = {
 			isa = PBXGroup;
 			children = (
 				D4C194E7263C3EB300C8683A /* AnimatedTransitioning.swift */,
@@ -104,7 +142,7 @@
 				D4638A86263ADFF7002C24DF /* VideoOutputViews.swift */,
 				4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */,
 			);
-			path = Views;
+			path = View;
 			sourceTree = "<group>";
 		};
 		D4C194E9263C478E00C8683A /* App */ = {
@@ -189,16 +227,18 @@
 			files = (
 				D4C194E6263C3EA400C8683A /* BoundingBoxView.swift in Sources */,
 				D4C194E8263C3EB300C8683A /* AnimatedTransitioning.swift in Sources */,
+				4D918158266EE16100674F78 /* ActionClassifier.swift in Sources */,
 				D4C194E3263C3CFA00C8683A /* JointSegmentView.swift in Sources */,
 				4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */,
+				4D918156266ECCD900674F78 /* Predictor.swift in Sources */,
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
 				4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */,
 				4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */,
+				4D91815A266EE7CB00674F78 /* Action.swift in Sources */,
 				D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */,
 				D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */,
 				D4638A89263AE067002C24DF /* Common.swift in Sources */,
 				4D91814A266BF43900674F78 /* CameraVC.swift in Sources */,
-				4D9C51DE263B098B00872313 /* JugglingPredictor.swift in Sources */,
 				4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */,
 				D4627CC5263A3E2A00C46E27 /* SceneDelegate.swift in Sources */,
 			);

@@ -10,7 +10,7 @@ import Vision
 import AVFoundation
 
 // MARK: - Output Video Processor Delegate
-protocol CameraVCOutputDelegate: AnyObject {
+protocol CameraOutputDelegate: AnyObject {
     func cameraOutput(_ controller: CameraVC, didReceiveBuffer buffer: CMSampleBuffer, orientation: CGImagePropertyOrientation)
 }
 
@@ -20,33 +20,34 @@ protocol CameraSessionDelegate: AnyObject {
     func flipped(to: AVCaptureDevice.Position)
 }
 
+// MARK: - Camera View Controller Properties
 class CameraVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 
-    // Camera thread
+    /// Camera thread
     private let videoDataOutputQueue = DispatchQueue(label: "CameraFeedDataOutput", qos: .userInitiated,
                                                      attributes: [], autoreleaseFrequency: .workItem)
     
-    // Camera output delegate
-    weak var outputDelegate: CameraVCOutputDelegate?
+    /// Camera output delegate
+    weak var outputDelegate: CameraOutputDelegate?
     
-    // Camera session delegate
+    /// Camera session delegate
     weak var cameraSessionDelegate: CameraSessionDelegate?
     
-    // A view that exibits the body joints
+    /// A view that exibits the body joints
     private let jointSegmentView = JointSegmentView()
     
-    // A view that exibits the body bounding box
+    /// A view that exibits the body bounding box
     private let playerBoundingBox = BoundingBoxView()
     
-    // Camera postion | front/badk
+    /// Camera postion | front/badk
     var cameraPosition: AVCaptureDevice.Position = .back
     
-    // Live camera feed management
+    /// Live camera feed management
     private var cameraFeedView: CameraFeedView!
     private var cameraFeedSession: AVCaptureSession?
     
-    // Perdictor
-    var predictor = JugglingPredictor()
+    /// Perdictor
+    var predictor = Predictor(action: .juggling)
     
 }
 
@@ -54,11 +55,11 @@ class CameraVC: UIViewController, AVCaptureVideoDataOutputSampleBufferDelegate {
 extension CameraVC {
     
     func setupAVSession() throws {
-        // Create device discovery session for a wide angle camera
+        /// Create device discovery session for a wide angle camera
         let wideAngle = AVCaptureDevice.DeviceType.builtInWideAngleCamera
         let discoverySession = AVCaptureDevice.DiscoverySession(deviceTypes: [wideAngle], mediaType: .video, position: cameraPosition)
         
-        // Select a video device, make an input
+        /// Select a video device, make an input
         guard let videoDevice = discoverySession.devices.first else {
             throw AppError.captureSessionSetup(reason: "Could not find a wide angle camera device.")
         }
@@ -69,14 +70,14 @@ extension CameraVC {
         
         let session = AVCaptureSession()
         session.beginConfiguration()
-        // We prefer a 1080p video capture but if camera cannot provide it then fall back to highest possible quality
+        /// We prefer a 1080p video capture but if camera cannot provide it then fall back to highest possible quality
         if videoDevice.supportsSessionPreset(.hd1920x1080) {
             session.sessionPreset = .hd1920x1080
         } else {
             session.sessionPreset = .high
         }
         
-        // Add a video input
+        /// Add a video input
         guard session.canAddInput(deviceInput) else {
             throw AppError.captureSessionSetup(reason: "Could not add video device input to the session")
         }
@@ -85,7 +86,7 @@ extension CameraVC {
         let dataOutput = AVCaptureVideoDataOutput()
         if session.canAddOutput(dataOutput) {
             session.addOutput(dataOutput)
-            // Add a video data output
+            /// Add a video data output
             dataOutput.alwaysDiscardsLateVideoFrames = true
             dataOutput.videoSettings = [
                 String(kCVPixelBufferPixelFormatTypeKey): Int(kCVPixelFormatType_420YpCbCr8BiPlanarFullRange)
@@ -97,12 +98,12 @@ extension CameraVC {
         let captureConnection = dataOutput.connection(with: .video)
         captureConnection?.preferredVideoStabilizationMode = .standard
         
-        // Always process the frames
+        /// Always process the frames
         captureConnection?.isEnabled = true
         session.commitConfiguration()
         cameraFeedSession = session
         
-        // Get the interface orientaion from window scene to set proper video orientation on capture connection.
+        /// Get the interface orientaion from window scene to set proper video orientation on capture connection.
         let videoOrientation: AVCaptureVideoOrientation
         switch view.window?.windowScene?.interfaceOrientation {
         case .landscapeRight:
@@ -111,10 +112,10 @@ extension CameraVC {
             videoOrientation = .portrait
         }
         
-        // Create and setup video feed view
+        /// Create and setup video feed view
         cameraFeedView = CameraFeedView(frame: view.bounds, session: session, videoOrientation: videoOrientation)
         
-        // Starts running camera
+        /// Starts running camera
         cameraFeedSession?.startRunning()
     }
 }
@@ -122,7 +123,7 @@ extension CameraVC {
 // MARK: - Vision Methods
 extension CameraVC {
     
-    // Gets joints from observed pose
+    /// Gets joints from observed pose
     func getBodyJointsFor(observation: VNHumanBodyPoseObservation) -> ([VNHumanBodyPoseObservation.JointName: CGPoint]) {
         var joints = [VNHumanBodyPoseObservation.JointName: CGPoint]()
         guard let identifiedPoints = try? observation.recognizedPoints(.all) else {
@@ -138,33 +139,33 @@ extension CameraVC {
     }
     
     
-    // Bounding box
+    /// Bounding box
     func updateBoundingBox(_ boundingBox: BoundingBoxView, withRect rect: CGRect?) {
-        // Update the frame for player bounding box
+        /// Update the frame for player bounding box
         boundingBox.frame = rect ?? .zero
         boundingBox.perform(transition: (rect == nil ? .fadeOut : .fadeIn), duration: 0.1)
     }
     
     
-    // Human bounding box
+    /// Human bounding box
     func humanBoundingBox(for observation: VNHumanBodyPoseObservation) -> CGRect {
         let bodyPoseDetectionMinConfidence: VNConfidence = 0.6
         let bodyPoseRecognizedPointMinConfidence: VNConfidence = 0.1
         
         var box = CGRect.zero
         var normalizedBoundingBox = CGRect.null
-        // Process body points only if the confidence is high.
+        /// Process body points only if the confidence is high.
         guard observation.confidence > bodyPoseDetectionMinConfidence, let points = try? observation.recognizedPoints(forGroupKey: .all) else {
             return box
         }
-        // Only use point if human pose joint was detected reliably.
+        /// Only use point if human pose joint was detected reliably.
         for (_, point) in points where point.confidence > bodyPoseRecognizedPointMinConfidence {
             normalizedBoundingBox = normalizedBoundingBox.union(CGRect(origin: point.location, size: .zero))
         }
         if !normalizedBoundingBox.isNull {
             box = normalizedBoundingBox
         }
-        // Fetch body joints from the observation and overlay them on the player.
+        /// Fetch body joints from the observation and overlay them on the player.
         let joints = getBodyJointsFor(observation: observation)
         DispatchQueue.main.async {
             self.jointSegmentView.joints = joints
@@ -211,16 +212,16 @@ extension CameraVC {
 // MARK: - Camera Output Live Video Processor
 extension CameraVC {
     
-    // Predictes result from camera output
+    /// Predictes result from camera output
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         
-        // Delagete method
+        /// Delagete method
         outputDelegate?.cameraOutput(self, didReceiveBuffer: sampleBuffer, orientation: .up)
         
-        // Frame processor
+        /// Frame processor
         let detectPlayerRequest = predictor.processFrame(sampleBuffer)
 
-        // Updates visual references
+        /// Updates visual references
         if let result = detectPlayerRequest.first {
             let box = humanBoundingBox(for: result)
             let boxView = playerBoundingBox
@@ -233,7 +234,7 @@ extension CameraVC {
             }
         }
         
-        // Request prediction
+        /// Request prediction
         cameraSessionDelegate?.makePrediction()
     }
 }
@@ -241,7 +242,7 @@ extension CameraVC {
 // MARK: - Camera Methods
 extension CameraVC {
     
-    // Updates Camera properties
+    /// Updates Camera properties
     func updateCamera() {
         do {
             try setupAVSession()
@@ -250,7 +251,7 @@ extension CameraVC {
         }
     }
     
-    // Flips camera
+    /// Flips camera
     @objc func flipCamera() {
         cameraPosition = cameraPosition == .front ? .back : .front
         cameraSessionDelegate?.flipped(to: cameraPosition)
@@ -260,14 +261,14 @@ extension CameraVC {
 // MARK: - Camera UI
 extension CameraVC {
     
-    // Tier 0 - Setup camera feed view UI
+    /// Tier 0 - Setup camera feed view UI
     func setupCameraFeedView() {
         view.addSubview(cameraFeedView)
         cameraFeedViewConstraints()
         cameraFeedView.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
     }
     
-    // Tier 1 - Setup Joint Segment View
+    /// Tier 1 - Setup Joint Segment View
     func setupVisionViews() {
         playerBoundingBox.borderColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         playerBoundingBox.backgroundOpacity = 0
@@ -276,7 +277,7 @@ extension CameraVC {
         view.addSubview(jointSegmentView)
     }
     
-    // Tier 0 - Video output view constraints
+    /// Tier 0 - Video output view constraints
     func cameraFeedViewConstraints() {
         cameraFeedView.translatesAutoresizingMaskIntoConstraints = false
         cameraFeedView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -285,7 +286,7 @@ extension CameraVC {
         cameraFeedView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
-    // Setup camera subviews
+    /// Setup camera subviews
     func setupCameraSubviews() {
         updateCamera()
         setupCameraFeedView()

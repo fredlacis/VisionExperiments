@@ -1,3 +1,4 @@
+
 //
 //  Predictor.swift
 //  VisionExperiments
@@ -11,24 +12,37 @@ import Vision
 
 @available(iOS 14.0, *)
 
-class JugglingPredictor {
+
+class Predictor {
     
-    /// Juggling Classifier MLModel
-    private let jugglingClassifier: JugglingClassifier = {
+    /// Action classifier MLModel
+    private let classifier: ActionClassifier
+    
+    /// Referenced action to detect
+    let action: Action
+    
+    /// Model configuration
+    let config = MLModelConfiguration()
+
+    /// Vision body pose request
+    private let humanBodyPoseRequest = VNDetectHumanBodyPoseRequest()
+    
+    /// The prediction window size specified on the Model Metadata
+    private let predictionWindowSize = 15
+    
+    init(action: Action) {
+        self.action = action
+        
+        /// Set classifier for respective action
         do {
-            let config = MLModelConfiguration()
-            return try JugglingClassifier(configuration: config)
+            classifier = try ActionClassifier(configuration: config, action: Action(rawValue: action.rawValue)!)
         } catch {
             print("Error on creating JugglingClassifier. | Message: \(error)")
             fatalError("Couldn't create JugglingClassifier")
         }
-    }()
-    
-    /// Vision body pose request
-    private let humanBodyPoseRequest = VNDetectHumanBodyPoseRequest()
-    
-    /// The Prediction Window Size specified on the Model Metadata
-    private let predictionWindowSize = 15
+        /// restricts the window to the predictWindowSize
+        posesWindow.reserveCapacity(predictionWindowSize)
+    }
     
     /// A rotation window to save the last 60 poses from the past 2 seconds
     var posesWindow: [VNRecognizedPointsObservation?] = []
@@ -38,16 +52,12 @@ class JugglingPredictor {
         posesWindow.count == predictionWindowSize
     }
     
-    init() {
-        // restricts the window to the predictWindowSize
-        posesWindow.reserveCapacity(predictionWindowSize)
-    }
-    
+    /// Frame processing
     public func processFrame(_ sampleBuffer: CMSampleBuffer) -> [VNHumanBodyPoseObservation] {
-        // Perform Vision body pose request
+        /// Perform Vision body pose request
         let framePoses = extractPoses(from: sampleBuffer)
         
-        // Should het here the most proiminent person, for now I'll just get the first of the array
+        /// Should het here the most proiminent person, for now I'll just get the first of the array
         if !framePoses.isEmpty, let firstPose = framePoses.first {
             posesWindow.append(firstPose)
         }
@@ -55,10 +65,10 @@ class JugglingPredictor {
         return framePoses
     }
     
-    // Predict juggling action from MLMultiArray
+    /// Predict juggling action from MLMultiArray
     public func makePrediction() throws -> String {
         
-        // Prepare model input: convert each pose to a multi-array, and concatenate multi-arrays
+        /// Prepare model input: convert each pose to a multi-array, and concatenate multi-arrays
         let poseMultiArrays: [MLMultiArray] = try posesWindow.map { person in
             guard let person = person else {
                 return try zeroPaddedMultiArray()
@@ -66,24 +76,25 @@ class JugglingPredictor {
             return try person.keypointsMultiArray()
         }
         
-        // Concatenates all the MLMultiArray into one
+        /// Concatenates all the MLMultiArray into one
         let modelInput = MLMultiArray(concatenating: poseMultiArrays, axis: 0, dataType: .float)
         
-        // Makes the prediction with the Juggling Classifier Model
-        let preditcions = try jugglingClassifier.prediction(poses: modelInput)
+        /// Makes the prediction with the Action Classifier Model
+        let preditcions = try classifier.prediction(poses: modelInput)
         
-        // Reset the poses window
+        /// Reset the poses window
         posesWindow = []
         
-        // Do whatever with the prediction result
+        /// Do whatever with the prediction result
         let output = "Label: \(preditcions.label) | Confidence: \(preditcions.labelProbabilities[preditcions.label] ?? 0)"
         
         return output
     }
 }
 
-//MARK: - HELPER FUNCTIONS
-extension JugglingPredictor {
+//MARK: - Predictor Support Methods
+extension Predictor {
+    
     /// Receives a CMSampleBuffer and returns the Human Poses in it
     func extractPoses(from sampleBuffer: CMSampleBuffer) -> [VNHumanBodyPoseObservation] {
         let handler = VNImageRequestHandler(cmSampleBuffer: sampleBuffer, orientation: .right, options: [:])
@@ -102,10 +113,10 @@ extension JugglingPredictor {
     }
     
     func zeroPaddedMultiArray() throws -> MLMultiArray {
-        // Creates a MLMultiArray with the size specified on the Model's Predictions tab
+        /// Creates a MLMultiArray with the size specified on the Model's Predictions tab
         let array = try MLMultiArray(shape: [1, 3, 18], dataType: MLMultiArrayDataType.float32)
         
-        // Fills it with 0s
+        /// Fills it with 0s
         for i in 0..<array.count {
             array[i] = NSNumber(value: 0)
         }
