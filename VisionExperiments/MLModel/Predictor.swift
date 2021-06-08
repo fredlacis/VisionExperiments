@@ -19,7 +19,7 @@ class Predictor {
     private let classifier: ActionClassifier
     
     /// Referenced action to detect
-    let action: Action
+    let availableMLModels: AvailableMLModels
     
     /// Model configuration
     let config = MLModelConfiguration()
@@ -30,12 +30,12 @@ class Predictor {
     /// The prediction window size specified on the Model Metadata
     private let predictionWindowSize = 15
     
-    init(action: Action) {
-        self.action = action
+    init(availableMLModels: AvailableMLModels) {
+        self.availableMLModels = availableMLModels
         
         /// Set classifier for respective action
         do {
-            classifier = try ActionClassifier(configuration: config, action: Action(rawValue: action.rawValue)!)
+            classifier = try ActionClassifier(configuration: config, availableMLModels: AvailableMLModels(rawValue: availableMLModels.rawValue)!)
         } catch {
             print("Error on creating JugglingClassifier. | Message: \(error)")
             fatalError("Couldn't create JugglingClassifier")
@@ -66,7 +66,7 @@ class Predictor {
     }
     
     /// Predict juggling action from MLMultiArray
-    public func makePrediction() throws -> String {
+    public func makePrediction() throws -> DetectedAction {
         
         /// Prepare model input: convert each pose to a multi-array, and concatenate multi-arrays
         let poseMultiArrays: [MLMultiArray] = try posesWindow.map { person in
@@ -85,8 +85,8 @@ class Predictor {
         /// Reset the poses window
         posesWindow = []
         
-        /// Do whatever with the prediction result
-        let output = "Label: \(preditcions.label) | Confidence: \(preditcions.labelProbabilities[preditcions.label] ?? 0)"
+        /// Prediction result
+        let output = DetectedAction(action: Action(rawValue: preditcions.label) ?? .other, confidence: (preditcions.labelProbabilities[preditcions.label] ?? 0))
         
         return output
     }

@@ -10,19 +10,19 @@ import Vision
 
 class JointSegmentView: UIView, AnimatedTransitioning {
     
-    // Joints dictionary composed by observed key and corelated point
+    /// Joints dictionary composed by observed key and corelated point
     var joints: [VNHumanBodyPoseObservation.JointName: CGPoint] = [:] {
         didSet {
             updatePathLayer()
         }
     }
 
-    // Joint point display parameters
+    /// Joint point display parameters
     private let jointRadius: CGFloat = 3.0
     private let jointLayer = CAShapeLayer()
     private var jointPath = UIBezierPath()
 
-    // Joints segments display parameters
+    /// Joints segments display parameters
     private let jointSegmentWidth: CGFloat = 2.0
     private let rightjointSegmentLayer = CAShapeLayer()
     private let leftjointSegmentLayer = CAShapeLayer()
@@ -45,7 +45,7 @@ class JointSegmentView: UIView, AnimatedTransitioning {
         rightjointSegmentLayer.path = nil
     }
 
-    // Setup layer parameters
+    /// Setup layer parameters
     private func setupLayer() {
         leftjointSegmentLayer.lineCap = .round
         leftjointSegmentLayer.lineWidth = jointSegmentWidth
@@ -63,10 +63,10 @@ class JointSegmentView: UIView, AnimatedTransitioning {
         layer.addSublayer(jointLayer)
     }
 
-    // Updates layer with current path information
+    /// Updates layer with current path information
     private func updatePathLayer() {
 
-        // Reset paths
+        /// Reset paths
         jointPath.removeAllPoints()
         leftjointSegmentPath.removeAllPoints()
         rightjointSegmentPath.removeAllPoints()
@@ -75,16 +75,16 @@ class JointSegmentView: UIView, AnimatedTransitioning {
         updateRightPathLayer()
         
         
-        // Setting path to layer
+        /// Setting path to layer
         jointLayer.path = jointPath.cgPath
     }
     
     private func updateLeftPathLayer() {
-        // Coordinate transformation parameters
+        /// Coordinate transformation parameters
         let flipVertical = CGAffineTransform.verticalFlip
         let scaleToBounds = CGAffineTransform(scaleX: bounds.width, y: bounds.height)
         
-        // Add all joints and segments
+        /// Add all joints and segments
         for index in 0 ..< leftJointsOfInterest.count {
             if let nextJoint = joints[leftJointsOfInterest[index]] {
                 
@@ -94,7 +94,7 @@ class JointSegmentView: UIView, AnimatedTransitioning {
                 let nextJointScaled = nextJoint.applying(flipVertical).applying(scaleToBounds)
                 
                 /// 2 - Internal vision conversion methods
-//                let nextJointScaled = VNImagePointForNormalizedPoint(nextJoint, Int(bounds.width), Int(bounds.height))
+///                let nextJointScaled = VNImagePointForNormalizedPoint(nextJoint, Int(bounds.width), Int(bounds.height))
 
                 // Bezier path construction
                 let nextJointPath = UIBezierPath(arcCenter: nextJointScaled, radius: jointRadius,
@@ -104,11 +104,11 @@ class JointSegmentView: UIView, AnimatedTransitioning {
                 if leftjointSegmentPath.isEmpty {
                     // First point creation
                     leftjointSegmentPath.move(to: nextJointScaled)
-//                    dump(nextJointScaled)
+///                    dump(nextJointScaled)
                 } else {
                     // Following points
                     leftjointSegmentPath.addLine(to: nextJointScaled)
-//                    dump(nextJointScaled)
+///                    dump(nextJointScaled)
                 }
             }
         }
@@ -117,11 +117,11 @@ class JointSegmentView: UIView, AnimatedTransitioning {
     }
     
     private func updateRightPathLayer() {
-        // Coordinate transformation parameters
+        /// Coordinate transformation parameters
         let flipVertical = CGAffineTransform.verticalFlip
         let scaleToBounds = CGAffineTransform(scaleX: bounds.width, y: bounds.height)
         
-        // Add all joints and segments
+        /// Add all joints and segments
         for index in 0 ..< rightJointsOfInterest.count {
             if let nextJoint = joints[rightJointsOfInterest[index]] {
                 
@@ -133,19 +133,19 @@ class JointSegmentView: UIView, AnimatedTransitioning {
                 /// 2 - Internal vision conversion methods
 //                let nextJointScaled = VNImagePointForNormalizedPoint(nextJoint, Int(bounds.width), Int(bounds.height))
 
-                // Bezier path construction
+                /// Bezier path construction
                 let nextJointPath = UIBezierPath(arcCenter: nextJointScaled, radius: jointRadius,
                                                  startAngle: CGFloat(0), endAngle: CGFloat.pi * 2, clockwise: true)
                 jointPath.append(nextJointPath)
                 
                 if rightjointSegmentPath.isEmpty {
-                    // First point creation
+                    /// First point creation
                     rightjointSegmentPath.move(to: nextJointScaled)
-//                    dump(nextJointScaled)
+///                    dump(nextJointScaled)
                 } else {
-                    // Following points
+                    /// Following points
                     rightjointSegmentPath.addLine(to: nextJointScaled)
-//                    dump(nextJointScaled)
+///                    dump(nextJointScaled)
                 }
             }
         }

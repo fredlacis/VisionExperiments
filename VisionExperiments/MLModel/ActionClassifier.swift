@@ -78,7 +78,7 @@ class ActionClassifier {
     let model: MLModel
     
     /// Referenced Action
-    let action: Action
+    let availableMLModels: AvailableMLModels
     
     /// URL of model assuming it was installed in the same bundle as this class
     class var urlOfModelInThisBundle : URL {
@@ -88,17 +88,17 @@ class ActionClassifier {
         return bundle.url(forResource: "JugglingClassifier", withExtension:"mlmodelc")!
     }
 
-    init(model: MLModel, action: Action) {
+    init(model: MLModel, availableMLModels: AvailableMLModels) {
         self.model = model
-        self.action = action
+        self.availableMLModels = availableMLModels
     }
 
     /**
         Construct ActionClassifier instance by automatically loading the model from the app's bundle and receiving action
     */
     @available(*, deprecated, message: "Use init(configuration:) instead and handle errors appropriately.")
-    convenience init(action: Action) {
-        try! self.init(contentsOf: type(of:self).urlOfModelInThisBundle, action: action)
+    convenience init(availableMLModels: AvailableMLModels) {
+        try! self.init(contentsOf: type(of:self).urlOfModelInThisBundle, availableMLModels: availableMLModels)
     }
 
     /**
@@ -110,8 +110,8 @@ class ActionClassifier {
 
         - throws: an NSError object that describes the problem
     */
-    convenience init(configuration: MLModelConfiguration, action: Action) throws {
-        try self.init(contentsOf: type(of:self).urlOfModelInThisBundle, configuration: configuration, action: action)
+    convenience init(configuration: MLModelConfiguration, availableMLModels: AvailableMLModels) throws {
+        try self.init(contentsOf: type(of:self).urlOfModelInThisBundle, configuration: configuration, availableMLModels: availableMLModels)
     }
 
     /**
@@ -122,8 +122,8 @@ class ActionClassifier {
 
         - throws: an NSError object that describes the problem
     */
-    convenience init(contentsOf modelURL: URL, action: Action) throws {
-        try self.init(model: MLModel(contentsOf: modelURL), action: action)
+    convenience init(contentsOf modelURL: URL, availableMLModels: AvailableMLModels) throws {
+        try self.init(model: MLModel(contentsOf: modelURL), availableMLModels: availableMLModels)
     }
 
     /**
@@ -136,10 +136,9 @@ class ActionClassifier {
      
         - throws: an NSError object that describes the problem
     */
-    convenience init(contentsOf modelURL: URL, configuration: MLModelConfiguration, action: Action) throws {
-        try self.init(model: MLModel(contentsOf: modelURL, configuration: configuration), action: action)
+    convenience init(contentsOf modelURL: URL, configuration: MLModelConfiguration, availableMLModels: AvailableMLModels) throws {
+        try self.init(model: MLModel(contentsOf: modelURL, configuration: configuration), availableMLModels: availableMLModels)
     }
-
     /**
         Construct ActionClassifier instance asynchronously with optional configuration.
 
@@ -174,7 +173,7 @@ class ActionClassifier {
             if let error = error {
                 handler(.failure(error))
             } else if let model = model {
-                handler(.success(ActionClassifier(model: model, action: self.action)))
+                handler(.success(ActionClassifier(model: model, availableMLModels: self.availableMLModels)))
             } else {
                 fatalError("SPI failure: -[MLModel loadContentsOfURL:configuration::completionHandler:] vends nil for both model and error.")
             }

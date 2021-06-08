@@ -8,7 +8,12 @@
 import Foundation
 
 // MARK: - Possible Actions to Detect With Respective Confidence
-enum DetectedAction {
-    case juggling(Double)
-    case other(Double)
+enum Action: String {
+    case juggling = "Juggling"
+    case other = "Other"
+}
+
+struct DetectedAction {
+    let action: Action
+    let confidence: Double
 }

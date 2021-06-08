@@ -11,10 +11,9 @@
 		4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D91814D266BFD8300674F78 /* JugglingVC.swift */; };
 		4D918156266ECCD900674F78 /* Predictor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918155266ECCD900674F78 /* Predictor.swift */; };
 		4D918158266EE16100674F78 /* ActionClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918157266EE16100674F78 /* ActionClassifier.swift */; };
-		4D91815A266EE7CB00674F78 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918159266EE7CB00674F78 /* Action.swift */; };
+		4D91815A266EE7CB00674F78 /* AvailableMLModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D918159266EE7CB00674F78 /* AvailableMLModels.swift */; };
 		4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */; };
 		4DB90AA02643811C00407C33 /* DetectedAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB90A9F2643811C00407C33 /* DetectedAction.swift */; };
-		4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */; };
 		D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */; };
 		D4627CC5263A3E2A00C46E27 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4627CC4263A3E2A00C46E27 /* SceneDelegate.swift */; };
 		D4627CCA263A3E2A00C46E27 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4627CC8263A3E2A00C46E27 /* Main.storyboard */; };
@@ -33,10 +32,9 @@
 		4D91814D266BFD8300674F78 /* JugglingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JugglingVC.swift; sourceTree = "<group>"; };
 		4D918155266ECCD900674F78 /* Predictor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Predictor.swift; sourceTree = "<group>"; };
 		4D918157266EE16100674F78 /* ActionClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionClassifier.swift; sourceTree = "<group>"; };
-		4D918159266EE7CB00674F78 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		4D918159266EE7CB00674F78 /* AvailableMLModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvailableMLModels.swift; sourceTree = "<group>"; };
 		4DAE546626445E6400CD0E5E /* UILabelExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UILabelExtensions.swift; sourceTree = "<group>"; };
 		4DB90A9F2643811C00407C33 /* DetectedAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedAction.swift; sourceTree = "<group>"; };
-		4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
 		D4627CBF263A3E2A00C46E27 /* VisionExperiments.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VisionExperiments.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4627CC2263A3E2A00C46E27 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4627CC4263A3E2A00C46E27 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,7 +83,6 @@
 			isa = PBXGroup;
 			children = (
 				D4638A88263AE067002C24DF /* Common.swift */,
-				4DE6F5E7263BABF20084FBFA /* StringExtensions.swift */,
 			);
 			path = Methods;
 			sourceTree = "<group>";
@@ -94,7 +91,7 @@
 			isa = PBXGroup;
 			children = (
 				4DB90A9F2643811C00407C33 /* DetectedAction.swift */,
-				4D918159266EE7CB00674F78 /* Action.swift */,
+				4D918159266EE7CB00674F78 /* AvailableMLModels.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -232,9 +229,8 @@
 				4DAE546726445E6400CD0E5E /* UILabelExtensions.swift in Sources */,
 				4D918156266ECCD900674F78 /* Predictor.swift in Sources */,
 				D4638A87263ADFF7002C24DF /* VideoOutputViews.swift in Sources */,
-				4DE6F5E8263BABF20084FBFA /* StringExtensions.swift in Sources */,
 				4D91814E266BFD8300674F78 /* JugglingVC.swift in Sources */,
-				4D91815A266EE7CB00674F78 /* Action.swift in Sources */,
+				4D91815A266EE7CB00674F78 /* AvailableMLModels.swift in Sources */,
 				D4638A8B263B0927002C24DF /* JugglingClassifier.mlmodel in Sources */,
 				D4627CC3263A3E2A00C46E27 /* AppDelegate.swift in Sources */,
 				D4638A89263AE067002C24DF /* Common.swift in Sources */,

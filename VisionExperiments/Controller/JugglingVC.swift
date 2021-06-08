@@ -76,17 +76,17 @@ extension JugglingVC {
                 let prediction = try predictor.makePrediction()
                 
                 /// Detects which action is been performed
-                switch prediction.getAction() {
+                switch prediction.action {
                 
-                case .juggling(let confidence):
+                case .juggling:
                     count+=1
-                    currentConfidence = confidence
+                    currentConfidence = prediction.confidence*100
                     /// Checks if it beats high score
                     highScore = highScore <= count ? count : highScore
                     
-                case .other(let confidence):
+                case .other:
                     count = 0
-                    currentConfidence = confidence
+                    currentConfidence = prediction.confidence*100
                 }
                 
                 /// Updates main theread UI
@@ -102,10 +102,10 @@ extension JugglingVC {
                     }
                     
                     /// Prediction
-                    self.classifierLabel.text = "\(prediction.getLabel() == "Juggling" ? "Juggling" : "Not Juggling")"
+                    self.classifierLabel.text = "\(prediction.action.rawValue == "Juggling" ? "Juggling" : "Not Juggling")"
                     
                     /// Confidence
-                    self.confidenceLabel.text = "\(self.currentConfidence)%"
+                    self.confidenceLabel.text = "\(self.currentConfidence.formatDigits())%"
                 }
             } catch {
                 debugPrint(error)
@@ -184,6 +184,8 @@ extension JugglingVC {
         flipCameraButton.backgroundColor = .orange
         flipCameraButton.layer.cornerRadius = 15
         flipCameraButton.layer.masksToBounds = true
+        flipCameraButton.setImage(UIImage(systemName: "arrow.triangle.2.circlepath.camera.fill"), for: .normal)
+        flipCameraButton.tintColor = .white
         flipCameraButton.addTarget(self, action: #selector(flipCamera), for: .touchUpInside)
     }
     
