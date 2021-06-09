@@ -16,7 +16,7 @@ protocol CameraOutputDelegate: AnyObject {
 
 // MARK: - Session Methods Delegate
 protocol CameraSessionDelegate: AnyObject {
-    func makePrediction()
+    func makePrediction(detectedPose: VNHumanBodyPoseObservation)
     func flipped(to: AVCaptureDevice.Position)
 }
 
@@ -134,13 +134,13 @@ extension CameraVC {
 extension CameraVC {
     
     /// Gets joints from observed pose
-    func getBodyJointsFor(observation: VNHumanBodyPoseObservation) -> ([VNHumanBodyPoseObservation.JointName: CGPoint]) {
+    func getBodyJointsFor(observation: VNHumanBodyPoseObservation, confidence: Float = 0.1) -> ([VNHumanBodyPoseObservation.JointName: CGPoint]) {
         var joints = [VNHumanBodyPoseObservation.JointName: CGPoint]()
         guard let identifiedPoints = try? observation.recognizedPoints(.all) else {
             return joints
         }
         for (key, point) in identifiedPoints {
-            guard point.confidence > 0.1 else { continue }
+            guard point.confidence > confidence else { continue }
             if jointsOfInterest.contains(key) {
                 joints[key] = point.location
             }
@@ -232,7 +232,7 @@ extension CameraVC {
         
         /// Frame processor
         let detectPlayerRequest = predictor.processFrame(sampleBuffer)
-
+        
         /// Updates visual references
         if let result = detectPlayerRequest.first {
             let box = humanBoundingBox(for: result)
@@ -244,11 +244,11 @@ extension CameraVC {
                 let normalizedFrame = CGRect(x: 0, y: 0, width: 1, height: 1)
                 
                 self.jointSegmentView.frame = self.viewRectForVisionRect(normalizedFrame)
+                
+                /// Request prediction
+                self.cameraSessionDelegate?.makePrediction(detectedPose: result)
             }
         }
-        
-        /// Request prediction
-        cameraSessionDelegate?.makePrediction()
     }
 }
 

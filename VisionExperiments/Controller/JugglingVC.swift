@@ -42,6 +42,9 @@ class JugglingVC: CameraVC, CameraSessionDelegate {
     /// Current confidence
     private var currentConfidence: Double = 0
     
+    /// Joints of interest in juggling action
+    private let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [.leftHip, .leftKnee, .leftAnkle, .rightHip, .rightKnee, .rightAnkle]
+    
     /// Live camera feed management
     private var cameraFeedView: CameraFeedView!
     private var cameraFeedSession: AVCaptureSession?
@@ -72,11 +75,25 @@ extension JugglingVC {
         setupSubiews()
     }
     
+    /// Checks joints of interest and returns if the frame is eligible to be predicted
+    func willPredict(_ detectedPose: VNHumanBodyPoseObservation)->Bool {
+        let joints = getBodyJointsFor(observation: detectedPose, confidence: 0.5)
+        if joints.keys.contains(where: jointsOfInterest.contains) {
+            return true
+        }
+        return false
+    }
+    
     /// ML prediction
-    func makePrediction() {
+    func makePrediction(detectedPose: VNHumanBodyPoseObservation) {
         if predictor.isReadyToPredict {
             do {
                 let prediction = try predictor.makePrediction()
+                
+                if !willPredict(detectedPose) {
+                    classifierLabel.text = "Adjust position"
+                    return
+                }
                 
                 /// Detects which action is been performed
                 switch prediction.action {
