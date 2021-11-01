@@ -8,14 +8,12 @@ import UIKit
 import Foundation
 
 extension UIViewController {
-
     /// Presents given view controller in fullscreen
     func presentFullScreen(_ nextVC: UIViewController) {
         nextVC.modalPresentationStyle = .fullScreen
         nextVC.navigationController?.isNavigationBarHidden = false
         self.present(nextVC, animated: true, completion: nil)
     }
-    
     /// Dismisses a VC from right to left
     @objc func dismissVC() {
         let transition = CATransition()
@@ -25,7 +23,7 @@ extension UIViewController {
         view.window!.layer.add(transition, forKey: kCATransition)
         self.dismiss(animated: false, completion: nil)
     }
-    
+    /// Pops a VC
     @objc func popVC() {
         self.navigationController?.popViewController(animated: true)
     }

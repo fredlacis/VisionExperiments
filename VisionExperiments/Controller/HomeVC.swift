@@ -9,28 +9,19 @@ import Foundation
 
 
 class HomeVC: UIViewController {
-
     /// Logo image
     let logoImage = UIImageView()
-    
     /// Juggling button
     let jugglingButton = SelectionButton(mlModel: .juggling)
-    
     /// Crossbar button
     let crossbarButton = SelectionButton(mlModel: .juggling)
-
     /// Tagline label
     let taglineLabel = UILabel()
-    
     override func viewDidLoad() {
         view.backgroundColor = .black
         setupSubviews()
     }
-    
-
-    
 // MARK: - View Setup
-    
     /// Tier 1 - Logo image
     func setupLogoImage() {
         view.addSubview(logoImage)
@@ -45,7 +36,6 @@ class HomeVC: UIViewController {
         jugglingButton.setTitle("Juggling Challenge", for: .normal)
         jugglingButton.titleLabel?.setHelveticaBold(20)
     }
-    
     /// Tier 3 - Crossbar Button
     func setupCrossbarButton() {
         view.addSubview(crossbarButton)
@@ -53,7 +43,6 @@ class HomeVC: UIViewController {
         crossbarButton.setTitle("Crossbar Challenge\n(Coming Soon) ", for: .normal)
         crossbarButton.titleLabel?.setHelveticaBold(20)
     }
-    
     /// Tier 4 - Tagline label
     func setupTaglineLabel() {
         view.addSubview(taglineLabel)
@@ -63,7 +52,6 @@ class HomeVC: UIViewController {
         taglineLabel.textColor = .orange
         taglineLabelConstraints()
     }
-    
     /// Setup all subviews
     func setupSubviews() {
         setupLogoImage()
@@ -71,9 +59,7 @@ class HomeVC: UIViewController {
         setupCrossbarButton()
         setupTaglineLabel()
     }
-    
 // MARK: - Constraint Setup
-    
     /// Tier 1 - Logo image
     func logoImageConstraints() {
         logoImage.translatesAutoresizingMaskIntoConstraints = false
@@ -109,7 +95,6 @@ class HomeVC: UIViewController {
     }
     
 // MARK: - Methods
-    
     /// Presents next view controller accordind to choosen challenge
     @objc func actionChoice(sender: SelectionButton) {
         self.presentFullScreen(JugglingVC(currentModel: .juggling))

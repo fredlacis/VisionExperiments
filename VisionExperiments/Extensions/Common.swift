@@ -8,6 +8,7 @@
 import UIKit
 import Vision
 
+/// left joints of interests
 let leftJointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .leftWrist,
     .leftElbow,
@@ -16,7 +17,7 @@ let leftJointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .leftKnee,
     .leftAnkle,
 ]
-
+/// right joints of interests
 let rightJointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .rightWrist,
     .rightElbow,
@@ -25,33 +26,27 @@ let rightJointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [
     .rightKnee,
     .rightAnkle,
 ]
-
+/// All joints of interests
 let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = {
     var left = leftJointsOfInterest
     left.append(contentsOf: rightJointsOfInterest)
     return left
 }()
-
 // MARK: - Support Extensions
-
 extension CGPoint {
     func distance(to point: CGPoint) -> CGFloat {
         return hypot(x - point.x, y - point.y)
     }
-    
     func angleFromHorizontal(to point: CGPoint) -> Double {
         let angle = atan2(point.y - y, point.x - x)
         let deg = abs(angle * (180.0 / CGFloat.pi))
         return Double(round(100 * deg) / 100)
     }
 }
-
 extension CGAffineTransform {
     static var verticalFlip = CGAffineTransform(scaleX: 1, y: -1).translatedBy(x: 0, y: -1)
     static var horizontalFlip = CGAffineTransform(scaleX: -1, y: 1)
-
 }
-
 extension UIBezierPath {
     convenience init(cornersOfRect borderRect: CGRect, cornerSize: CGSize, cornerRadius: CGFloat) {
         self.init()
@@ -96,9 +91,7 @@ extension UIBezierPath {
         addLine(to: CGPoint(x: borderRect.minX, y: borderRect.maxY - cornerSizeV - cornerRadius))
     }
 }
-
 extension Comparable where Self: Numeric {
-    
     /// Gets confidence percentage from CreateML prediction string format as string
     func formatDigits(numberOfDigits: Int = 2)->String {
         
@@ -107,12 +100,10 @@ extension Comparable where Self: Numeric {
 }
 
 // MARK: - Errors
-
 enum AppError: Error {
     case captureSessionSetup(reason: String)
     case createRequestError(reason: String)
     case videoReadingError(reason: String)
-    
     static func display(_ error: Error, inViewController viewController: UIViewController) {
         if let appError = error as? AppError {
             appError.displayInViewController(viewController)
@@ -120,7 +111,6 @@ enum AppError: Error {
             print(error)
         }
     }
-    
     func displayInViewController(_ viewController: UIViewController) {
         let title: String?
         let message: String?
@@ -135,7 +125,6 @@ enum AppError: Error {
             title = "Error Reading Recorded Video."
             message = reason
         }
-        
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default))
         

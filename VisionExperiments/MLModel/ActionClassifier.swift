@@ -6,20 +6,18 @@
 
 import CoreML
 
-
+/// Edited internal Classes
 //MARK: - Model Prediction Input Type
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class ActionClassifierInput : MLFeatureProvider {
-
     /// A sequence of body poses to classify. Its multiarray encoding uses the first dimension to index time over 15 frames. The second dimension indexes x, y, and confidence of pose keypoint locations. The last dimension indexes the keypoint type, ordered as: nose, neck, right shoulder, right elbow, right wrist, left shoulder, left elbow, left wrist, right hip, right knee, right ankle, left hip, left knee, left ankle, right eye, left eye, right ear, left ear as 15 × 3 × 18 3-dimensional array of floats
     var poses: MLMultiArray
-
+    /// Feature names poses
     var featureNames: Set<String> {
         get {
             return ["poses"]
         }
     }
-    
     /// Get feature value from poses
     func featureValue(for featureName: String) -> MLFeatureValue? {
         if (featureName == "poses") {
@@ -27,43 +25,36 @@ class ActionClassifierInput : MLFeatureProvider {
         }
         return nil
     }
-    
+    /// Initializes a Action Classifier Input
     init(poses: MLMultiArray) {
         self.poses = poses
     }
 }
-
-
 //MARK: - Model Prediction Output Type
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class ActionClassifierOutput : MLFeatureProvider {
-
     /// Source provided by CoreML
     private let provider : MLFeatureProvider
-
-
     /// Probability of each category as dictionary of strings to doubles
     lazy var labelProbabilities: [String : Double] = {
         [unowned self] in return self.provider.featureValue(for: "labelProbabilities")!.dictionaryValue as! [String : Double]
     }()
-
     /// Most likely action category as string value
     lazy var label: String = {
         [unowned self] in return self.provider.featureValue(for: "label")!.stringValue
     }()
-
     var featureNames: Set<String> {
         return self.provider.featureNames
     }
-    
+    /// Feature value
     func featureValue(for featureName: String) -> MLFeatureValue? {
         return self.provider.featureValue(for: featureName)
     }
-
+    /// Initializes a ActionClassifierOutput
     init(labelProbabilities: [String : Double], label: String) {
         self.provider = try! MLDictionaryFeatureProvider(dictionary: ["labelProbabilities" : MLFeatureValue(dictionary: labelProbabilities as [AnyHashable : NSNumber]), "label" : MLFeatureValue(string: label)])
     }
-
+    /// Initializes a ActionClassifierOutput
     init(features: MLFeatureProvider) {
         self.provider = features
     }
@@ -73,34 +64,27 @@ class ActionClassifierOutput : MLFeatureProvider {
 //MARK: - Class for Model Loading and Prediction
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 class ActionClassifier {
-    
     /// ML Model
     let model: MLModel
-    
     /// Referenced Action
     let selectedModel: MLModels
-    
     /// URL of model assuming it was installed in the same bundle as this class
     class func urlOfModelInThisBundle(currentModel: MLModels) throws ->URL {
         let bundle = Bundle.main
-        
         /// Try to find requested model url
         guard let url = bundle.url(forResource: currentModel.rawValue, withExtension:"mlmodelc")
-        
         /// If it's not able to find model
         else {
             fatalError("Couldn't load \(currentModel.rawValue)Classifier")
         }
         return url
     }
-    
-    
+    /// Initializes a ActionClassifier
     init(model: MLModel, currentModel: MLModels) {
         
         self.model = model
         self.selectedModel = currentModel
     }
-
     /**
         Construct ActionClassifier instance by automatically loading the model from the app's bundle and receiving action
     */
@@ -121,7 +105,6 @@ class ActionClassifier {
     convenience init(configuration: MLModelConfiguration, currentModel: MLModels) throws {
         try self.init(contentsOf: Self.urlOfModelInThisBundle(currentModel: currentModel), configuration: configuration, currentModel: currentModel)
     }
-
     /**
         Construct ActionClassifier instance with explicit path to mlmodelc file
         - parameters:
@@ -133,7 +116,6 @@ class ActionClassifier {
     convenience init(contentsOf modelURL: URL, currentModel: MLModels) throws {
         try self.init(model: MLModel(contentsOf: modelURL), currentModel: currentModel)
     }
-
     /**
         Construct a model with URL of the .mlmodelc directory and configuration
 
@@ -157,14 +139,11 @@ class ActionClassifier {
             - handler: the completion handler to be called when the model loading completes successfully or unsuccessfully
             - action : referenced action
     */
-    
-    
-    // TO DO CHEK: Fix
+    // TO DO CHECK: Fix
 //    @available(macOS 11.0, iOS 14.0, tvOS 14.0, watchOS 7.0, *)
 //    class func load(configuration: MLModelConfiguration = MLModelConfiguration(), completionHandler handler: @escaping (Swift.Result<ActionClassifier, Error>) -> Void) {
 //        return self.load(contentsOf: self.urlOfModelInThisBundle, configuration: configuration, completionHandler: handler)
 //    }
-
     /**
         Construct ActionClassifier instance asynchronously with URL of the .mlmodelc directory with optional configuration.
 
@@ -187,7 +166,6 @@ class ActionClassifier {
             }
         }
     }
-
     /**
         Make a prediction using the structured interface
 
@@ -217,7 +195,6 @@ class ActionClassifier {
         let outFeatures = try model.prediction(from: input, options:options)
         return ActionClassifierOutput(features: outFeatures)
     }
-
     /**
         Make a prediction using the convenience interface
 

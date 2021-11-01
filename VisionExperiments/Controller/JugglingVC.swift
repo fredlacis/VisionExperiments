@@ -11,57 +11,42 @@ import Vision
 
 // MARK: - Juggling View Controller
 class JugglingVC: CameraVC, CameraSessionDelegate {
-
     /// Classifier label
     private let classifierLabel = UILabel()
-    
     /// High Score label
     private let highScoreLabel = UILabel()
-    
     /// Confidence label
     private let confidenceLabel = UILabel()
-    
     /// Best label
     private let bestLabel = UILabel()
-    
     /// Counter label
     private let counterLabel = UILabel()
-    
     /// Return button
     let returnButton = UIButton()
-    
     /// Flip Camera Button
     let flipCameraButton = UIButton()
-    
     /// Counter
     private var count: Int = 0
-    
     /// High score
     private var highScore: Int = 0
-    
     /// Current confidence
     private var currentConfidence: Double = 0
-    
     /// Joints of interest in juggling action
     private let jointsOfInterest: [VNHumanBodyPoseObservation.JointName] = [.leftHip, .leftKnee, .leftAnkle, .rightHip, .rightKnee, .rightAnkle]
-    
     /// Live camera feed management
     private var cameraFeedView: CameraFeedView!
     private var cameraFeedSession: AVCaptureSession?
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         /// Camera delegate
         cameraSessionDelegate = self
-        
         /// Setup subviews layout and constraints
         setupSubiews()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
         /// Stop capture session if it's running
         cameraFeedSession?.stopRunning()
     }
@@ -69,12 +54,10 @@ class JugglingVC: CameraVC, CameraSessionDelegate {
 
 // MARK: - Methods
 extension JugglingVC {
-    
     /// Camera flipped
     func flipped(to: AVCaptureDevice.Position) {
         setupSubiews()
     }
-    
     /// Checks joints of interest and returns if the frame is eligible to be predicted
     func willPredict(_ detectedPose: VNHumanBodyPoseObservation)->Bool {
         let joints = getBodyJointsFor(observation: detectedPose, confidence: 0.5)
@@ -83,8 +66,9 @@ extension JugglingVC {
         }
         return false
     }
-    
     /// ML prediction
+    /// - Parameters:
+    ///     - detectedPose: Prediction based on pose observed
     func makePrediction(detectedPose: VNHumanBodyPoseObservation) {
         if predictor.isReadyToPredict {
             do {
@@ -94,10 +78,8 @@ extension JugglingVC {
                     classifierLabel.text = "Adjust position"
                     return
                 }
-                
                 /// Detects which action is been performed
                 switch prediction.action {
-                
                 case .juggling:
                     count+=1
                     currentConfidence = prediction.confidence*100
@@ -108,10 +90,8 @@ extension JugglingVC {
                     count = 0
                     currentConfidence = prediction.confidence*100
                 }
-                
                 /// Updates main theread UI
                 DispatchQueue.main.async {
-                    
                     /// Confirm juggling with basic filter
                     if self.count >= 3 {
                         self.counterLabel.text = "\(self.count)"
@@ -120,10 +100,8 @@ extension JugglingVC {
                     else {
                         self.counterLabel.text = ""
                     }
-                    
                     /// Prediction
                     self.classifierLabel.text = "\(prediction.action.rawValue == "Juggling" ? "Juggling" : "Not Juggling")"
-                    
                     /// Confidence
                     self.confidenceLabel.text = "\(self.currentConfidence.formatDigits())%"
                 }
@@ -135,7 +113,6 @@ extension JugglingVC {
 }
 // MARK: - View Setup Extensions
 extension JugglingVC {
-    
     /// Tier 1 - Setup classifier label UI
     func setupClassifierLabel() {
         view.addSubview(classifierLabel)
@@ -143,8 +120,6 @@ extension JugglingVC {
         classifierLabel.customShapeLayout()
         classifierLabel.customLabelLayout(fontSize: 20)
     }
-    
-    
     /// Tier 2 - Setup highscore label UI
     func setupHighScoreLabel() {
         view.addSubview(highScoreLabel)
@@ -152,7 +127,6 @@ extension JugglingVC {
         highScoreLabel.customShapeLayout()
         highScoreLabel.customLabelLayout(fontSize: 20, text: "\(highScore)")
     }
-    
     /// Tier 3 - Setup confidence label UI
     func setupConficendeLabel() {
         view.addSubview(confidenceLabel)
@@ -160,7 +134,6 @@ extension JugglingVC {
         confidenceLabel.customShapeLayout()
         confidenceLabel.customLabelLayout(fontSize: 13, text: "")
     }
-    
     /// Tier 4 - Setup best label UI
     func setupBestLabel() {
         view.addSubview(bestLabel)
@@ -171,7 +144,6 @@ extension JugglingVC {
         bestLabel.setHelveticaBold(20)
         bestLabel.text = "Best"
     }
-    
     /// Tier 5 - Setup counter label UI
     func setupCounterLabel() {
         view.addSubview(counterLabel)
@@ -200,39 +172,28 @@ extension JugglingVC {
         flipCameraButton.addTarget(self, action: #selector(flipCamera), for: .touchUpInside)
         flipCameraButton.tintColor = .white
     }
-    
     /// Setup SubViews
     func setupSubiews() {
-        
         /// Tier 0 - Setup camera session
         setupCameraSubviews()
-
         /// Tier 1 - Setup classifier label
         setupClassifierLabel()
-        
         /// Tier 2 - Setup highscore label
         setupHighScoreLabel()
-        
         /// Tier 3 - Setup Confidence label
         setupConficendeLabel()
-        
         /// Tier 4 - Setup best label
         setupBestLabel()
-        
         /// Tier 5 - Counter label
         setupCounterLabel()
-        
         /// Tier 6 - Setup return button
         setupReturnButton()
-        
         /// Tier 7 - Flip camera button
         setupFlipCameraButton()
     }
 }
-
 // MARK: - Constraint Setup Extensions
 extension JugglingVC {
-    
     /// Tier 1 - Classifier label constraints
     func classifierLabelConstraints() {
         classifierLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -241,7 +202,6 @@ extension JugglingVC {
         classifierLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5).isActive = true
         classifierLabel.heightAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.25).isActive = true
     }
-    
     /// Tier 2 - High score label constrains
     func highScoreLabelConstraints() {
         highScoreLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -250,7 +210,6 @@ extension JugglingVC {
         highScoreLabel.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
         highScoreLabel.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
     }
-    
     /// Tier 3 - Confidence label constraints
     func confidenceLabelConstraints() {
         confidenceLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -259,7 +218,6 @@ extension JugglingVC {
         confidenceLabel.widthAnchor.constraint(equalTo: classifierLabel.widthAnchor, multiplier: 0.5).isActive = true
         confidenceLabel.heightAnchor.constraint(equalTo: confidenceLabel.widthAnchor, multiplier: 0.3).isActive = true
     }
-    
     /// Tier 4 - Confidence label constraints
     func bestLabelConstraints() {
         bestLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -268,7 +226,6 @@ extension JugglingVC {
         bestLabel.widthAnchor.constraint(equalTo: highScoreLabel.widthAnchor).isActive = true
         bestLabel.heightAnchor.constraint(equalTo: bestLabel.widthAnchor).isActive = true
     }
-    
     /// Tier 5 - Counter label contraints
     func counterLabelConstraints() {
         counterLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -277,7 +234,6 @@ extension JugglingVC {
         counterLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8).isActive = true
         counterLabel.heightAnchor.constraint(equalTo: counterLabel.widthAnchor, multiplier: 0.8).isActive = true
     }
-    
     /// Tier 6 - Return button contraints
     func returnButtonConstraints() {
         returnButton.translatesAutoresizingMaskIntoConstraints = false
@@ -286,7 +242,6 @@ extension JugglingVC {
         returnButton.heightAnchor.constraint(equalTo: classifierLabel.heightAnchor).isActive = true
         returnButton.widthAnchor.constraint(equalTo: highScoreLabel.heightAnchor).isActive = true
     }
-    
     /// Tier 7 - Flip camera button contraints
     func flipCameraButtonConstraints() {
         flipCameraButton.translatesAutoresizingMaskIntoConstraints = false

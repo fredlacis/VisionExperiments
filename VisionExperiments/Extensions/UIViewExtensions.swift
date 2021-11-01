@@ -8,7 +8,6 @@ import UIKit
 import Foundation
 
 extension UIView {
-    
     /// Custom shape used in UI
     func customShapeLayout() {
         self.backgroundColor = .orange

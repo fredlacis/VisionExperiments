@@ -8,14 +8,11 @@ import UIKit
 import Foundation
 
 extension UIImageView {
-    
-    // Retrieve a Image by it`s name
+    /// Retrieve a Image by it's name
     func addImage(name: String) {
-        
-        // Case Image does not Exists
+        /// Case Image does not Exists
         guard let uiImage = UIImage(named: name) else { return self.backgroundColor = .white }
-        
-        // Returns Chosen UIImage
+        /// Returns Chosen UIImage
         return self.image = uiImage
     }
 }

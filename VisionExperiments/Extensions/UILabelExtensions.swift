@@ -8,7 +8,6 @@ import UIKit
 import Foundation
 
 extension UILabel {
-    
     /// Custom label used in UI
     func customLabelLayout(fontSize: CGFloat, text: String = "") {
         self.textAlignment = .center
@@ -16,7 +15,6 @@ extension UILabel {
         self.setHelveticaBold(fontSize)
         self.text = text
     }
-    
     /// Set font as helvetica bold
     func setHelveticaBold(_ fontSize: CGFloat) {
         self.font = UIFont(name: "HelveticaNeue-Bold", size: fontSize)
